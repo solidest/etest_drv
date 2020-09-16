@@ -45,7 +45,6 @@ struct et_gpio_value{
     unsigned int mask;
 };
 
-
 struct et_gpio_dev {
     char name[16];
     dev_t devno;
@@ -84,14 +83,15 @@ static int et_gpio_close(struct inode * inode_p, struct file * file_p)
 
 static ssize_t et_gpio_write(struct file *file_p, const char __user *buf, size_t len, loff_t *loff_t_p)
 {
+    struct et_gpio_dev * dev = (struct et_gpio_dev *)file_p->private_data;
+    struct et_gpio_value v;
+
     if(len != sizeof(struct et_gpio_value)) {
         return -1;
     }
 
-    struct et_gpio_dev * dev = file_p->private_data;
     if (IS_ERR(dev))
         return PTR_ERR(dev);
-    struct et_gpio_value v;
     copy_from_user(&v, buf, len);
 
     //TODO 写入输出值
@@ -101,14 +101,15 @@ static ssize_t et_gpio_write(struct file *file_p, const char __user *buf, size_t
 
 static ssize_t et_gpio_read(struct file *file_p, char __user *buf, size_t len, loff_t *loff_t_p)
 {
+    struct et_gpio_dev * dev = file_p->private_data;
+    struct et_gpio_value v;
+
     if(len != sizeof(struct et_gpio_value)) {
         return -1;
     }
 
-    struct et_gpio_dev * dev = file_p->private_data;
     if (IS_ERR(dev))
         return PTR_ERR(dev);
-    struct et_gpio_value v;
     copy_from_user(&v, buf, len);
 
     //TODO 读取输入值
@@ -122,11 +123,11 @@ static ssize_t et_gpio_read(struct file *file_p, char __user *buf, size_t len, l
 
 static long et_gpio_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 {
+    int retval = 0;
     struct et_gpio_dev * dev = file->private_data;
     if (IS_ERR(dev))
         return PTR_ERR(dev);
 
-    int retval = 0;
     switch (cmd) {
         case IOC_SET_DIR: {
             struct et_gpio_dir dir;
@@ -168,8 +169,8 @@ static struct file_operations et_gpio_fops = {
 
 static int __init et_gpio_init(void)  
 {  
-    printk("%s : %d\n", __func__, __LINE__);
     int i;
+    printk("%s : %d\n", __func__, __LINE__);
 
     for (i = 0; i < GPIO_DEV_COUNT; i++) {
         et_gpio_devs[i].devno = MKDEV(ET_GPIO_MAJOR, i);
@@ -191,14 +192,15 @@ static int __init et_gpio_init(void)
         printk("device %s initial is ok!\n", et_gpio_devs[i].name);
     }
 
-    et_gpio_devs[0].addr_base = ioremap_wc(GPIO_DEV_BASE0, GPIO_DEV_SIZE);
+    et_gpio_devs[0].addr_base = (unsigned long)ioremap_wc(GPIO_DEV_BASE0, GPIO_DEV_SIZE);
     et_gpio_devs[0].ch_count = GPIO_DEV_CHCOUNT0;
     et_gpio_devs[0].ch_width[0] = GPIO_DEV_WIDTH0_1;
     et_gpio_devs[0].ch_width[1] = GPIO_DEV_WIDTH0_2;
-    et_gpio_devs[1].addr_base = ioremap_wc(GPIO_DEV_BASE1, GPIO_DEV_SIZE);
+    et_gpio_devs[1].addr_base = (unsigned long)ioremap_wc(GPIO_DEV_BASE1, GPIO_DEV_SIZE);
     et_gpio_devs[1].ch_count = GPIO_DEV_CHCOUNT1;
     et_gpio_devs[1].ch_width[0] = GPIO_DEV_WIDTH1_1;
     et_gpio_devs[1].ch_width[1] = GPIO_DEV_WIDTH1_2;
+    
     return 0;
 }
  
