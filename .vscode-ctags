@@ -1,0 +1,65 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/23d50b5d/
+DEVICE_NAME	et_gpio/et_gpio_drv.c	/^#define DEVICE_NAME /;"	d	file:
+DEVICE_NAME	et_gpio/et_gpio_drv_.c	/^#define DEVICE_NAME /;"	d	file:
+DEVID_COUNT	et_gpio/et_gpio_drv.c	/^#define DEVID_COUNT /;"	d	file:
+DEVID_COUNT	et_gpio/et_gpio_drv_.c	/^#define DEVID_COUNT /;"	d	file:
+DRIVE_COUNT	et_gpio/et_gpio_drv.c	/^#define DRIVE_COUNT /;"	d	file:
+DRIVE_COUNT	et_gpio/et_gpio_drv_.c	/^#define DRIVE_COUNT /;"	d	file:
+GPIO_BASE	et_gpio/et_gpio_drv.c	/^#define GPIO_BASE /;"	d	file:
+GPIO_BASE	et_gpio/et_gpio_drv_.c	/^#define GPIO_BASE /;"	d	file:
+GPIO_DATA_1	et_gpio/et_gpio_drv.c	/^#define GPIO_DATA_1 /;"	d	file:
+GPIO_DATA_1	et_gpio/et_gpio_drv_.c	/^#define GPIO_DATA_1 /;"	d	file:
+GPIO_DIRM_1	et_gpio/et_gpio_drv.c	/^#define GPIO_DIRM_1 /;"	d	file:
+GPIO_DIRM_1	et_gpio/et_gpio_drv_.c	/^#define GPIO_DIRM_1 /;"	d	file:
+GPIO_OEN_1	et_gpio/et_gpio_drv.c	/^#define GPIO_OEN_1 /;"	d	file:
+GPIO_OEN_1	et_gpio/et_gpio_drv_.c	/^#define GPIO_OEN_1 /;"	d	file:
+GPIO_SIZE	et_gpio/et_gpio_drv.c	/^#define GPIO_SIZE /;"	d	file:
+GPIO_SIZE	et_gpio/et_gpio_drv_.c	/^#define GPIO_SIZE /;"	d	file:
+IOC_GET_DIR	et_gpio/test/main.c	/^#define IOC_GET_DIR /;"	d	file:
+IOC_MAGIC_DIO	et_gpio/test/main.c	/^#define IOC_MAGIC_DIO /;"	d	file:
+IOC_SET_DIR	et_gpio/test/main.c	/^#define IOC_SET_DIR /;"	d	file:
+MAJOR	et_gpio/et_gpio_drv_.c	/^#define MAJOR$/;"	d	file:
+MINOR	et_gpio/et_gpio_drv.c	/^#define MINOR /;"	d	file:
+MINOR	et_gpio/et_gpio_drv_.c	/^#define MINOR /;"	d	file:
+alinx_char	et_gpio/et_gpio_drv_.c	/^static struct alinx_char_dev alinx_char = {$/;"	v	typeref:struct:alinx_char_dev	file:
+alinx_char_dev	et_gpio/et_gpio_drv_.c	/^struct alinx_char_dev{$/;"	s	file:
+ax_char_fops	et_gpio/et_gpio_drv.c	/^static struct file_operations ax_char_fops = {  $/;"	v	typeref:struct:file_operations	file:
+ax_char_fops	et_gpio/et_gpio_drv_.c	/^static struct file_operations ax_char_fops = {  $/;"	v	typeref:struct:file_operations	file:
+cdev	et_gpio/et_gpio_drv.c	/^	struct cdev      cdev;       \/\/字符设备$/;"	m	struct:et_char_dev	typeref:struct:cdev	file:
+cdev	et_gpio/et_gpio_drv_.c	/^	struct cdev      cdev;       \/\/字符设备$/;"	m	struct:alinx_char_dev	typeref:struct:cdev	file:
+ch_id	et_gpio/test/main.c	/^	unsigned int ch_id;             \/\/通道号$/;"	m	struct:et_gpio_dir	typeref:typename:unsigned int	file:
+ch_id	et_gpio/test/main.c	/^	unsigned int ch_id;             \/\/通道号$/;"	m	struct:et_gpio_value	typeref:typename:unsigned int	file:
+class	et_gpio/et_gpio_drv.c	/^	struct class     *class;     \/\/类$/;"	m	struct:et_char_dev	typeref:struct:class *	file:
+class	et_gpio/et_gpio_drv_.c	/^	struct class     *class;     \/\/类$/;"	m	struct:alinx_char_dev	typeref:struct:class *	file:
+device	et_gpio/et_gpio_drv.c	/^	struct device    *device;    \/\/设备节点$/;"	m	struct:et_char_dev	typeref:struct:device *	file:
+device	et_gpio/et_gpio_drv_.c	/^	struct device    *device;    \/\/设备节点$/;"	m	struct:alinx_char_dev	typeref:struct:device *	file:
+devid	et_gpio/et_gpio_drv.c	/^	dev_t            devid;      \/\/设备号$/;"	m	struct:et_char_dev	typeref:typename:dev_t	file:
+devid	et_gpio/et_gpio_drv_.c	/^	dev_t            devid;      \/\/设备号$/;"	m	struct:alinx_char_dev	typeref:typename:dev_t	file:
+et_char	et_gpio/et_gpio_drv.c	/^static struct et_char_dev et_char = {$/;"	v	typeref:struct:et_char_dev	file:
+et_char_dev	et_gpio/et_gpio_drv.c	/^struct et_char_dev{$/;"	s	file:
+et_gpio_dir	et_gpio/test/main.c	/^struct et_gpio_dir{$/;"	s	file:
+et_gpio_exit	et_gpio/et_gpio_drv.c	/^static void __exit et_gpio_exit(void)  $/;"	f	typeref:typename:void __exit	file:
+et_gpio_init	et_gpio/et_gpio_drv.c	/^static int __init et_gpio_init(void)  $/;"	f	typeref:typename:int __init	file:
+et_gpio_value	et_gpio/test/main.c	/^struct et_gpio_value{$/;"	s	file:
+gpio_add_minor	et_gpio/et_gpio_drv.c	/^static unsigned long gpio_add_minor;  $/;"	v	typeref:typename:unsigned long	file:
+gpio_add_minor	et_gpio/et_gpio_drv_.c	/^static unsigned long gpio_add_minor;  $/;"	v	typeref:typename:unsigned long	file:
+gpio_led_exit	et_gpio/et_gpio_drv_.c	/^static void __exit gpio_led_exit(void)  $/;"	f	typeref:typename:void __exit	file:
+gpio_led_init	et_gpio/et_gpio_drv_.c	/^static int __init gpio_led_init(void)  $/;"	f	typeref:typename:int __init	file:
+gpio_leds_open	et_gpio/et_gpio_drv_.c	/^static int gpio_leds_open(struct inode *inode_p, struct file *file_p)  $/;"	f	typeref:typename:int	file:
+gpio_leds_release	et_gpio/et_gpio_drv_.c	/^static int gpio_leds_release(struct inode *inode_p, struct file *file_p)  $/;"	f	typeref:typename:int	file:
+gpio_leds_write	et_gpio/et_gpio_drv_.c	/^static ssize_t gpio_leds_write(struct file *file_p, const char __user *buf, size_t len, loff_t */;"	f	typeref:typename:ssize_t	file:
+io_dir	et_gpio/test/main.c	/^    unsigned int io_dir;            \/\/io方向 按位 0为输入 1为输出$/;"	m	struct:et_gpio_dir	typeref:typename:unsigned int	file:
+io_value	et_gpio/test/main.c	/^    unsigned int io_value;          \/\/io值 按位 0为低电平 1为高电平$/;"	m	struct:et_gpio_value	typeref:typename:unsigned int	file:
+main	et_gpio/test/main.c	/^int main(int argc, char **argv)$/;"	f	typeref:typename:int
+mask	et_gpio/test/main.c	/^    unsigned int mask;              \/\/引脚掩码 1为有效的引脚$/;"	m	struct:et_gpio_value	typeref:typename:unsigned int	file:
+mask	et_gpio/test/main.c	/^    unsigned int mask;              \/\/引脚掩码 1需要设置的引脚$/;"	m	struct:et_gpio_dir	typeref:typename:unsigned int	file:
+test_dir	et_gpio/test/main.c	/^int test_dir(int fd)$/;"	f	typeref:typename:int
+test_value	et_gpio/test/main.c	/^int test_value(int fd)$/;"	f	typeref:typename:int
