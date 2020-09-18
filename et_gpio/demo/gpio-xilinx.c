@@ -411,9 +411,6 @@ static void xgpio_irqhandler(struct irq_desc *desc)
 	int offset;
 	unsigned long val;
 
-	if (!chip)
-		return;
-
 	chained_irq_enter(irqchip, desc);
 
 	val = xgpio_readreg(mm_gc->regs + chip->offset);
@@ -604,7 +601,7 @@ static int xgpio_of_probe(struct platform_device *pdev)
 	struct xgpio_instance *chip, *chip_dual;
 	int status = 0;
 	const u32 *tree_info;
-	u32 ngpio = 0;
+	u32 ngpio;
 	u32 cells = 2;
 
 	chip = devm_kzalloc(&pdev->dev, sizeof(*chip), GFP_KERNEL);
@@ -612,21 +609,18 @@ static int xgpio_of_probe(struct platform_device *pdev)
 		return -ENOMEM;
 
 	/* Update GPIO state shadow register with default value */
-	if (of_property_read_u32(np, "xlnx,dout-default", &chip->gpio_state))
-		dev_dbg(&pdev->dev, "Missing xlnx,dout-default property\n");
+	of_property_read_u32(np, "xlnx,dout-default", &chip->gpio_state);
 
 	/* By default, all pins are inputs */
 	chip->gpio_dir = 0xFFFFFFFF;
 
 	/* Update GPIO direction shadow register with default value */
-	if (of_property_read_u32(np, "xlnx,tri-default", &chip->gpio_dir))
-		dev_dbg(&pdev->dev, "Missing xlnx,tri-default property\n");
+	of_property_read_u32(np, "xlnx,tri-default", &chip->gpio_dir);
 
 	chip->no_init = of_property_read_bool(np, "xlnx,no-init");
 
 	/* Update cells with gpio-cells value */
-	if (of_property_read_u32(np, "#gpio-cells", &cells))
-		dev_dbg(&pdev->dev, "Missing gpio-cells property\n");
+	of_property_read_u32(np, "#gpio-cells", &cells);
 
 	/*
 	 * Check device node and parent device node for device width

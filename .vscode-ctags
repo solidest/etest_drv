@@ -7,59 +7,268 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	/23d50b5d/
-DEVICE_NAME	et_gpio/et_gpio_drv.c	/^#define DEVICE_NAME /;"	d	file:
 DEVICE_NAME	et_gpio/et_gpio_drv_.c	/^#define DEVICE_NAME /;"	d	file:
-DEVID_COUNT	et_gpio/et_gpio_drv.c	/^#define DEVID_COUNT /;"	d	file:
 DEVID_COUNT	et_gpio/et_gpio_drv_.c	/^#define DEVID_COUNT /;"	d	file:
-DRIVE_COUNT	et_gpio/et_gpio_drv.c	/^#define DRIVE_COUNT /;"	d	file:
 DRIVE_COUNT	et_gpio/et_gpio_drv_.c	/^#define DRIVE_COUNT /;"	d	file:
-GPIO_BASE	et_gpio/et_gpio_drv.c	/^#define GPIO_BASE /;"	d	file:
-GPIO_BASE	et_gpio/et_gpio_drv_.c	/^#define GPIO_BASE /;"	d	file:
-GPIO_DATA_1	et_gpio/et_gpio_drv.c	/^#define GPIO_DATA_1 /;"	d	file:
-GPIO_DATA_1	et_gpio/et_gpio_drv_.c	/^#define GPIO_DATA_1 /;"	d	file:
-GPIO_DIRM_1	et_gpio/et_gpio_drv.c	/^#define GPIO_DIRM_1 /;"	d	file:
-GPIO_DIRM_1	et_gpio/et_gpio_drv_.c	/^#define GPIO_DIRM_1 /;"	d	file:
-GPIO_OEN_1	et_gpio/et_gpio_drv.c	/^#define GPIO_OEN_1 /;"	d	file:
-GPIO_OEN_1	et_gpio/et_gpio_drv_.c	/^#define GPIO_OEN_1 /;"	d	file:
-GPIO_SIZE	et_gpio/et_gpio_drv.c	/^#define GPIO_SIZE /;"	d	file:
-GPIO_SIZE	et_gpio/et_gpio_drv_.c	/^#define GPIO_SIZE /;"	d	file:
+ET_GPIO_MAJOR	et/et_gpio_drv.c	/^#define ET_GPIO_MAJOR /;"	d	file:
+ET_GPIO_MAJOR	et_gpio/et_gpio_drv.c	/^#define ET_GPIO_MAJOR /;"	d	file:
+ET_GPIO_NAME	et/et_gpio_drv.c	/^#define ET_GPIO_NAME /;"	d	file:
+ET_GPIO_NAME	et_gpio/et_gpio_drv.c	/^#define ET_GPIO_NAME /;"	d	file:
+GPIO_DATA_1	et_gpio/et_gpio_drv_.c	/^static u32 *GPIO_DATA_1;$/;"	v	typeref:typename:u32 *	file:
+GPIO_DEV_BASE0	et/et_gpio_drv.c	/^#define GPIO_DEV_BASE0 /;"	d	file:
+GPIO_DEV_BASE0	et_gpio/et_gpio_drv.c	/^#define GPIO_DEV_BASE0 /;"	d	file:
+GPIO_DEV_BASE1	et/et_gpio_drv.c	/^#define GPIO_DEV_BASE1 /;"	d	file:
+GPIO_DEV_BASE1	et_gpio/et_gpio_drv.c	/^#define GPIO_DEV_BASE1 /;"	d	file:
+GPIO_DEV_CHCOUNT0	et/et_gpio_drv.c	/^#define GPIO_DEV_CHCOUNT0 /;"	d	file:
+GPIO_DEV_CHCOUNT0	et_gpio/et_gpio_drv.c	/^#define GPIO_DEV_CHCOUNT0 /;"	d	file:
+GPIO_DEV_CHCOUNT1	et/et_gpio_drv.c	/^#define GPIO_DEV_CHCOUNT1 /;"	d	file:
+GPIO_DEV_CHCOUNT1	et_gpio/et_gpio_drv.c	/^#define GPIO_DEV_CHCOUNT1 /;"	d	file:
+GPIO_DEV_COUNT	et/et_gpio_drv.c	/^#define GPIO_DEV_COUNT /;"	d	file:
+GPIO_DEV_COUNT	et_gpio/et_gpio_drv.c	/^#define GPIO_DEV_COUNT /;"	d	file:
+GPIO_DEV_SIZE	et/et_gpio_drv.c	/^#define GPIO_DEV_SIZE /;"	d	file:
+GPIO_DEV_SIZE	et_gpio/et_gpio_drv.c	/^#define GPIO_DEV_SIZE /;"	d	file:
+GPIO_DEV_WIDTH0_1	et/et_gpio_drv.c	/^#define GPIO_DEV_WIDTH0_1 /;"	d	file:
+GPIO_DEV_WIDTH0_1	et_gpio/et_gpio_drv.c	/^#define GPIO_DEV_WIDTH0_1 /;"	d	file:
+GPIO_DEV_WIDTH0_2	et/et_gpio_drv.c	/^#define GPIO_DEV_WIDTH0_2 /;"	d	file:
+GPIO_DEV_WIDTH0_2	et_gpio/et_gpio_drv.c	/^#define GPIO_DEV_WIDTH0_2 /;"	d	file:
+GPIO_DEV_WIDTH1_1	et/et_gpio_drv.c	/^#define GPIO_DEV_WIDTH1_1 /;"	d	file:
+GPIO_DEV_WIDTH1_1	et_gpio/et_gpio_drv.c	/^#define GPIO_DEV_WIDTH1_1 /;"	d	file:
+GPIO_DEV_WIDTH1_2	et/et_gpio_drv.c	/^#define GPIO_DEV_WIDTH1_2 /;"	d	file:
+GPIO_DEV_WIDTH1_2	et_gpio/et_gpio_drv.c	/^#define GPIO_DEV_WIDTH1_2 /;"	d	file:
+GPIO_DIRM_1	et_gpio/et_gpio_drv_.c	/^static u32 *GPIO_DIRM_1; $/;"	v	typeref:typename:u32 *	file:
+GPIO_OEN_1	et_gpio/et_gpio_drv_.c	/^static u32 *GPIO_OEN_1;$/;"	v	typeref:typename:u32 *	file:
+IOC_GET_DIR	et/et_gpio_drv.c	/^#define IOC_GET_DIR /;"	d	file:
+IOC_GET_DIR	et/test/main.c	/^#define IOC_GET_DIR /;"	d	file:
+IOC_GET_DIR	et_gpio/et_gpio_drv.c	/^#define IOC_GET_DIR /;"	d	file:
 IOC_GET_DIR	et_gpio/test/main.c	/^#define IOC_GET_DIR /;"	d	file:
+IOC_MAGIC_DIO	et/et_gpio_drv.c	/^#define IOC_MAGIC_DIO /;"	d	file:
+IOC_MAGIC_DIO	et/test/main.c	/^#define IOC_MAGIC_DIO /;"	d	file:
+IOC_MAGIC_DIO	et_gpio/et_gpio_drv.c	/^#define IOC_MAGIC_DIO /;"	d	file:
 IOC_MAGIC_DIO	et_gpio/test/main.c	/^#define IOC_MAGIC_DIO /;"	d	file:
+IOC_SET_DIR	et/et_gpio_drv.c	/^#define IOC_SET_DIR /;"	d	file:
+IOC_SET_DIR	et/test/main.c	/^#define IOC_SET_DIR /;"	d	file:
+IOC_SET_DIR	et_gpio/et_gpio_drv.c	/^#define IOC_SET_DIR /;"	d	file:
 IOC_SET_DIR	et_gpio/test/main.c	/^#define IOC_SET_DIR /;"	d	file:
 MAJOR	et_gpio/et_gpio_drv_.c	/^#define MAJOR$/;"	d	file:
-MINOR	et_gpio/et_gpio_drv.c	/^#define MINOR /;"	d	file:
 MINOR	et_gpio/et_gpio_drv_.c	/^#define MINOR /;"	d	file:
+XGPIO_CHANNEL_OFFSET	et/demo/gpio-xilinx.c	/^#define XGPIO_CHANNEL_OFFSET	/;"	d	file:
+XGPIO_CHANNEL_OFFSET	et_gpio/demo/gpio-xilinx.c	/^#define XGPIO_CHANNEL_OFFSET	/;"	d	file:
+XGPIO_DATA_OFFSET	et/demo/gpio-xilinx.c	/^#define XGPIO_DATA_OFFSET	/;"	d	file:
+XGPIO_DATA_OFFSET	et_gpio/demo/gpio-xilinx.c	/^#define XGPIO_DATA_OFFSET	/;"	d	file:
+XGPIO_GIER_IE	et/demo/gpio-xilinx.c	/^#define XGPIO_GIER_IE	/;"	d	file:
+XGPIO_GIER_IE	et_gpio/demo/gpio-xilinx.c	/^#define XGPIO_GIER_IE	/;"	d	file:
+XGPIO_GIER_OFFSET	et/demo/gpio-xilinx.c	/^#define XGPIO_GIER_OFFSET	/;"	d	file:
+XGPIO_GIER_OFFSET	et_gpio/demo/gpio-xilinx.c	/^#define XGPIO_GIER_OFFSET	/;"	d	file:
+XGPIO_IPIER_OFFSET	et/demo/gpio-xilinx.c	/^#define XGPIO_IPIER_OFFSET	/;"	d	file:
+XGPIO_IPIER_OFFSET	et_gpio/demo/gpio-xilinx.c	/^#define XGPIO_IPIER_OFFSET	/;"	d	file:
+XGPIO_IPISR_OFFSET	et/demo/gpio-xilinx.c	/^#define XGPIO_IPISR_OFFSET	/;"	d	file:
+XGPIO_IPISR_OFFSET	et_gpio/demo/gpio-xilinx.c	/^#define XGPIO_IPISR_OFFSET	/;"	d	file:
+XGPIO_TRI_OFFSET	et/demo/gpio-xilinx.c	/^#define XGPIO_TRI_OFFSET	/;"	d	file:
+XGPIO_TRI_OFFSET	et_gpio/demo/gpio-xilinx.c	/^#define XGPIO_TRI_OFFSET	/;"	d	file:
+addr_base	et/et_gpio_drv.c	/^    unsigned long addr_base;$/;"	m	struct:et_gpio_dev	typeref:typename:unsigned long	file:
+addr_base	et_gpio/et_gpio_drv.c	/^    unsigned long addr_base;$/;"	m	struct:et_gpio_dev	typeref:typename:unsigned long	file:
 alinx_char	et_gpio/et_gpio_drv_.c	/^static struct alinx_char_dev alinx_char = {$/;"	v	typeref:struct:alinx_char_dev	file:
 alinx_char_dev	et_gpio/et_gpio_drv_.c	/^struct alinx_char_dev{$/;"	s	file:
-ax_char_fops	et_gpio/et_gpio_drv.c	/^static struct file_operations ax_char_fops = {  $/;"	v	typeref:struct:file_operations	file:
+amba_pl	et/demo/pl.dtsi	/^	amba_pl: amba_pl@0 {$/;"	l
+amba_pl	et_gpio/demo/pl.dtsi	/^	amba_pl: amba_pl@0 {$/;"	l
 ax_char_fops	et_gpio/et_gpio_drv_.c	/^static struct file_operations ax_char_fops = {  $/;"	v	typeref:struct:file_operations	file:
-cdev	et_gpio/et_gpio_drv.c	/^	struct cdev      cdev;       \/\/字符设备$/;"	m	struct:et_char_dev	typeref:struct:cdev	file:
-cdev	et_gpio/et_gpio_drv_.c	/^	struct cdev      cdev;       \/\/字符设备$/;"	m	struct:alinx_char_dev	typeref:struct:cdev	file:
+axi_ethernet_0	et/demo/pl.dtsi	/^		axi_ethernet_0: ethernet@80000000 {$/;"	l	label:amba_pl
+axi_ethernet_0	et_gpio/demo/pl.dtsi	/^		axi_ethernet_0: ethernet@80000000 {$/;"	l	label:amba_pl
+axi_ethernet_0_dma	et/demo/pl.dtsi	/^		axi_ethernet_0_dma: dma@80040000 {$/;"	l	label:amba_pl
+axi_ethernet_0_dma	et_gpio/demo/pl.dtsi	/^		axi_ethernet_0_dma: dma@80040000 {$/;"	l	label:amba_pl
+axi_ethernet_0_mdio	et/demo/pl.dtsi	/^			axi_ethernet_0_mdio: mdio {$/;"	l	label:amba_pl.axi_ethernet_0
+axi_ethernet_0_mdio	et_gpio/demo/pl.dtsi	/^			axi_ethernet_0_mdio: mdio {$/;"	l	label:amba_pl.axi_ethernet_0
+axi_gpio_0	et/demo/pl.dtsi	/^		axi_gpio_0: gpio@80050000 {$/;"	l	label:amba_pl
+axi_gpio_0	et_gpio/demo/pl.dtsi	/^		axi_gpio_0: gpio@80050000 {$/;"	l	label:amba_pl
+axi_gpio_1	et/demo/pl.dtsi	/^		axi_gpio_1: gpio@80060000 {$/;"	l	label:amba_pl
+axi_gpio_1	et_gpio/demo/pl.dtsi	/^		axi_gpio_1: gpio@80060000 {$/;"	l	label:amba_pl
+axi_uart16550_0	et/demo/pl.dtsi	/^		axi_uart16550_0: serial@800a0000 {$/;"	l	label:amba_pl
+axi_uart16550_0	et_gpio/demo/pl.dtsi	/^		axi_uart16550_0: serial@800a0000 {$/;"	l	label:amba_pl
+axi_uart16550_1	et/demo/pl.dtsi	/^		axi_uart16550_1: serial@800b0000 {$/;"	l	label:amba_pl
+axi_uart16550_1	et_gpio/demo/pl.dtsi	/^		axi_uart16550_1: serial@800b0000 {$/;"	l	label:amba_pl
+cdev	et/et_gpio_drv.c	/^    struct cdev cdev;$/;"	m	struct:et_gpio_dev	typeref:struct:cdev	file:
+cdev	et_gpio/et_gpio_drv.c	/^    struct cdev cdev;$/;"	m	struct:et_gpio_dev	typeref:struct:cdev	file:
+cdev	et_gpio/et_gpio_drv_.c	/^	struct cdev        cdev;       \/\/字符设备$/;"	m	struct:alinx_char_dev	typeref:struct:cdev	file:
+ch_count	et/et_gpio_drv.c	/^    unsigned int ch_count;$/;"	m	struct:et_gpio_dev	typeref:typename:unsigned int	file:
+ch_count	et_gpio/et_gpio_drv.c	/^    unsigned int ch_count;$/;"	m	struct:et_gpio_dev	typeref:typename:unsigned int	file:
+ch_id	et/et_gpio_drv.c	/^	unsigned int ch_id;$/;"	m	struct:et_gpio_dir	typeref:typename:unsigned int	file:
+ch_id	et/et_gpio_drv.c	/^	unsigned int ch_id;$/;"	m	struct:et_gpio_value	typeref:typename:unsigned int	file:
+ch_id	et/test/main.c	/^	unsigned int ch_id;             \/\/通道号$/;"	m	struct:et_gpio_dir	typeref:typename:unsigned int	file:
+ch_id	et/test/main.c	/^	unsigned int ch_id;             \/\/通道号$/;"	m	struct:et_gpio_value	typeref:typename:unsigned int	file:
+ch_id	et_gpio/et_gpio_drv.c	/^	unsigned int ch_id;$/;"	m	struct:et_gpio_dir	typeref:typename:unsigned int	file:
+ch_id	et_gpio/et_gpio_drv.c	/^	unsigned int ch_id;$/;"	m	struct:et_gpio_value	typeref:typename:unsigned int	file:
 ch_id	et_gpio/test/main.c	/^	unsigned int ch_id;             \/\/通道号$/;"	m	struct:et_gpio_dir	typeref:typename:unsigned int	file:
 ch_id	et_gpio/test/main.c	/^	unsigned int ch_id;             \/\/通道号$/;"	m	struct:et_gpio_value	typeref:typename:unsigned int	file:
-class	et_gpio/et_gpio_drv.c	/^	struct class     *class;     \/\/类$/;"	m	struct:et_char_dev	typeref:struct:class *	file:
-class	et_gpio/et_gpio_drv_.c	/^	struct class     *class;     \/\/类$/;"	m	struct:alinx_char_dev	typeref:struct:class *	file:
-device	et_gpio/et_gpio_drv.c	/^	struct device    *device;    \/\/设备节点$/;"	m	struct:et_char_dev	typeref:struct:device *	file:
-device	et_gpio/et_gpio_drv_.c	/^	struct device    *device;    \/\/设备节点$/;"	m	struct:alinx_char_dev	typeref:struct:device *	file:
-devid	et_gpio/et_gpio_drv.c	/^	dev_t            devid;      \/\/设备号$/;"	m	struct:et_char_dev	typeref:typename:dev_t	file:
-devid	et_gpio/et_gpio_drv_.c	/^	dev_t            devid;      \/\/设备号$/;"	m	struct:alinx_char_dev	typeref:typename:dev_t	file:
-et_char	et_gpio/et_gpio_drv.c	/^static struct et_char_dev et_char = {$/;"	v	typeref:struct:et_char_dev	file:
-et_char_dev	et_gpio/et_gpio_drv.c	/^struct et_char_dev{$/;"	s	file:
+ch_width	et/et_gpio_drv.c	/^    unsigned int ch_width[2];$/;"	m	struct:et_gpio_dev	typeref:typename:unsigned int[2]	file:
+ch_width	et_gpio/et_gpio_drv.c	/^    unsigned int ch_width[2];$/;"	m	struct:et_gpio_dev	typeref:typename:unsigned int[2]	file:
+class	et_gpio/et_gpio_drv_.c	/^	struct class       *class;     \/\/类$/;"	m	struct:alinx_char_dev	typeref:struct:class *	file:
+clk	et/demo/gpio-xilinx.c	/^	struct clk *clk;$/;"	m	struct:xgpio_instance	typeref:struct:clk *	file:
+clk	et_gpio/demo/gpio-xilinx.c	/^	struct clk *clk;$/;"	m	struct:xgpio_instance	typeref:struct:clk *	file:
+device	et/et_gpio_drv.c	/^    struct device *device;$/;"	m	struct:et_gpio_dev	typeref:struct:device *	file:
+device	et_gpio/et_gpio_drv.c	/^    struct device *device;$/;"	m	struct:et_gpio_dev	typeref:struct:device *	file:
+device	et_gpio/et_gpio_drv_.c	/^	struct device      *device;    \/\/设备$/;"	m	struct:alinx_char_dev	typeref:struct:device *	file:
+devid	et_gpio/et_gpio_drv_.c	/^	dev_t              devid;      \/\/设备号$/;"	m	struct:alinx_char_dev	typeref:typename:dev_t	file:
+devno	et/et_gpio_drv.c	/^    dev_t devno;$/;"	m	struct:et_gpio_dev	typeref:typename:dev_t	file:
+devno	et_gpio/et_gpio_drv.c	/^    dev_t devno;$/;"	m	struct:et_gpio_dev	typeref:typename:dev_t	file:
+et_gpio_class	et/et_gpio_drv.c	/^static struct class * et_gpio_class;  $/;"	v	typeref:struct:class *	file:
+et_gpio_class	et_gpio/et_gpio_drv.c	/^static struct class * et_gpio_class;  $/;"	v	typeref:struct:class *	file:
+et_gpio_close	et/et_gpio_drv.c	/^static int et_gpio_close(struct inode * inode_p, struct file * file_p)$/;"	f	typeref:typename:int	file:
+et_gpio_close	et_gpio/et_gpio_drv.c	/^static int et_gpio_close(struct inode * inode_p, struct file * file_p)$/;"	f	typeref:typename:int	file:
+et_gpio_dev	et/et_gpio_drv.c	/^struct et_gpio_dev {$/;"	s	file:
+et_gpio_dev	et_gpio/et_gpio_drv.c	/^struct et_gpio_dev {$/;"	s	file:
+et_gpio_devs	et/et_gpio_drv.c	/^static struct et_gpio_dev et_gpio_devs[GPIO_DEV_COUNT];$/;"	v	typeref:struct:et_gpio_dev[]	file:
+et_gpio_devs	et_gpio/et_gpio_drv.c	/^static struct et_gpio_dev et_gpio_devs[GPIO_DEV_COUNT];$/;"	v	typeref:struct:et_gpio_dev[]	file:
+et_gpio_dir	et/et_gpio_drv.c	/^struct et_gpio_dir{$/;"	s	file:
+et_gpio_dir	et/test/main.c	/^struct et_gpio_dir{$/;"	s	file:
+et_gpio_dir	et_gpio/et_gpio_drv.c	/^struct et_gpio_dir{$/;"	s	file:
 et_gpio_dir	et_gpio/test/main.c	/^struct et_gpio_dir{$/;"	s	file:
+et_gpio_exit	et/et_gpio_drv.c	/^static void __exit et_gpio_exit(void)  $/;"	f	typeref:typename:void __exit	file:
 et_gpio_exit	et_gpio/et_gpio_drv.c	/^static void __exit et_gpio_exit(void)  $/;"	f	typeref:typename:void __exit	file:
+et_gpio_fops	et/et_gpio_drv.c	/^static struct file_operations et_gpio_fops = {$/;"	v	typeref:struct:file_operations	file:
+et_gpio_fops	et_gpio/et_gpio_drv.c	/^static struct file_operations et_gpio_fops = {$/;"	v	typeref:struct:file_operations	file:
+et_gpio_init	et/et_gpio_drv.c	/^static int __init et_gpio_init(void)  $/;"	f	typeref:typename:int __init	file:
 et_gpio_init	et_gpio/et_gpio_drv.c	/^static int __init et_gpio_init(void)  $/;"	f	typeref:typename:int __init	file:
+et_gpio_ioctl	et/et_gpio_drv.c	/^static long et_gpio_ioctl(struct file *file, unsigned int cmd, unsigned long arg)$/;"	f	typeref:typename:long	file:
+et_gpio_ioctl	et_gpio/et_gpio_drv.c	/^static long et_gpio_ioctl(struct file *file, unsigned int cmd, unsigned long arg)$/;"	f	typeref:typename:long	file:
+et_gpio_open	et/et_gpio_drv.c	/^static int et_gpio_open(struct inode * inode_p, struct file * file_p)$/;"	f	typeref:typename:int	file:
+et_gpio_open	et_gpio/et_gpio_drv.c	/^static int et_gpio_open(struct inode * inode_p, struct file * file_p)$/;"	f	typeref:typename:int	file:
+et_gpio_read	et/et_gpio_drv.c	/^static ssize_t et_gpio_read(struct file *file_p, char __user *buf, size_t len, loff_t *loff_t_p)$/;"	f	typeref:typename:ssize_t	file:
+et_gpio_read	et_gpio/et_gpio_drv.c	/^static ssize_t et_gpio_read(struct file *file_p, char __user *buf, size_t len, loff_t *loff_t_p)$/;"	f	typeref:typename:ssize_t	file:
+et_gpio_value	et/et_gpio_drv.c	/^struct et_gpio_value{$/;"	s	file:
+et_gpio_value	et/test/main.c	/^struct et_gpio_value{$/;"	s	file:
+et_gpio_value	et_gpio/et_gpio_drv.c	/^struct et_gpio_value{$/;"	s	file:
 et_gpio_value	et_gpio/test/main.c	/^struct et_gpio_value{$/;"	s	file:
-gpio_add_minor	et_gpio/et_gpio_drv.c	/^static unsigned long gpio_add_minor;  $/;"	v	typeref:typename:unsigned long	file:
-gpio_add_minor	et_gpio/et_gpio_drv_.c	/^static unsigned long gpio_add_minor;  $/;"	v	typeref:typename:unsigned long	file:
+et_gpio_write	et/et_gpio_drv.c	/^static ssize_t et_gpio_write(struct file *file_p, const char __user *buf, size_t len, loff_t *lo/;"	f	typeref:typename:ssize_t	file:
+et_gpio_write	et_gpio/et_gpio_drv.c	/^static ssize_t et_gpio_write(struct file *file_p, const char __user *buf, size_t len, loff_t *lo/;"	f	typeref:typename:ssize_t	file:
+frequency_0	et/demo/pl.dtsi	/^		frequency_0: frequency@80070000 {$/;"	l	label:amba_pl
+frequency_0	et_gpio/demo/pl.dtsi	/^		frequency_0: frequency@80070000 {$/;"	l	label:amba_pl
+gpio_dir	et/demo/gpio-xilinx.c	/^	u32 gpio_dir;$/;"	m	struct:xgpio_instance	typeref:typename:u32	file:
+gpio_dir	et_gpio/demo/gpio-xilinx.c	/^	u32 gpio_dir;$/;"	m	struct:xgpio_instance	typeref:typename:u32	file:
 gpio_led_exit	et_gpio/et_gpio_drv_.c	/^static void __exit gpio_led_exit(void)  $/;"	f	typeref:typename:void __exit	file:
 gpio_led_init	et_gpio/et_gpio_drv_.c	/^static int __init gpio_led_init(void)  $/;"	f	typeref:typename:int __init	file:
 gpio_leds_open	et_gpio/et_gpio_drv_.c	/^static int gpio_leds_open(struct inode *inode_p, struct file *file_p)  $/;"	f	typeref:typename:int	file:
 gpio_leds_release	et_gpio/et_gpio_drv_.c	/^static int gpio_leds_release(struct inode *inode_p, struct file *file_p)  $/;"	f	typeref:typename:int	file:
 gpio_leds_write	et_gpio/et_gpio_drv_.c	/^static ssize_t gpio_leds_write(struct file *file_p, const char __user *buf, size_t len, loff_t */;"	f	typeref:typename:ssize_t	file:
+gpio_lock	et/demo/gpio-xilinx.c	/^	spinlock_t gpio_lock;$/;"	m	struct:xgpio_instance	typeref:typename:spinlock_t	file:
+gpio_lock	et_gpio/demo/gpio-xilinx.c	/^	spinlock_t gpio_lock;$/;"	m	struct:xgpio_instance	typeref:typename:spinlock_t	file:
+gpio_lock_class	et/demo/gpio-xilinx.c	/^static struct lock_class_key gpio_lock_class;$/;"	v	typeref:struct:lock_class_key	file:
+gpio_lock_class	et_gpio/demo/gpio-xilinx.c	/^static struct lock_class_key gpio_lock_class;$/;"	v	typeref:struct:lock_class_key	file:
+gpio_request_class	et/demo/gpio-xilinx.c	/^static struct lock_class_key gpio_request_class;$/;"	v	typeref:struct:lock_class_key	file:
+gpio_request_class	et_gpio/demo/gpio-xilinx.c	/^static struct lock_class_key gpio_request_class;$/;"	v	typeref:struct:lock_class_key	file:
+gpio_state	et/demo/gpio-xilinx.c	/^	u32 gpio_state;$/;"	m	struct:xgpio_instance	typeref:typename:u32	file:
+gpio_state	et_gpio/demo/gpio-xilinx.c	/^	u32 gpio_state;$/;"	m	struct:xgpio_instance	typeref:typename:u32	file:
+io_dir	et/et_gpio_drv.c	/^    unsigned int io_dir;$/;"	m	struct:et_gpio_dir	typeref:typename:unsigned int	file:
+io_dir	et/test/main.c	/^    unsigned int io_dir;            \/\/io方向 按位 0为输入 1为输出$/;"	m	struct:et_gpio_dir	typeref:typename:unsigned int	file:
+io_dir	et_gpio/et_gpio_drv.c	/^    unsigned int io_dir;$/;"	m	struct:et_gpio_dir	typeref:typename:unsigned int	file:
 io_dir	et_gpio/test/main.c	/^    unsigned int io_dir;            \/\/io方向 按位 0为输入 1为输出$/;"	m	struct:et_gpio_dir	typeref:typename:unsigned int	file:
+io_value	et/et_gpio_drv.c	/^    unsigned int io_value;$/;"	m	struct:et_gpio_value	typeref:typename:unsigned int	file:
+io_value	et/test/main.c	/^    unsigned int io_value;          \/\/io值 按位 0为低电平 1为高电平$/;"	m	struct:et_gpio_value	typeref:typename:unsigned int	file:
+io_value	et_gpio/et_gpio_drv.c	/^    unsigned int io_value;$/;"	m	struct:et_gpio_value	typeref:typename:unsigned int	file:
 io_value	et_gpio/test/main.c	/^    unsigned int io_value;          \/\/io值 按位 0为低电平 1为高电平$/;"	m	struct:et_gpio_value	typeref:typename:unsigned int	file:
+irq_base	et/demo/gpio-xilinx.c	/^	int irq_base;$/;"	m	struct:xgpio_instance	typeref:typename:int	file:
+irq_base	et_gpio/demo/gpio-xilinx.c	/^	int irq_base;$/;"	m	struct:xgpio_instance	typeref:typename:int	file:
+irq_domain	et/demo/gpio-xilinx.c	/^	struct irq_domain *irq_domain;$/;"	m	struct:xgpio_instance	typeref:struct:irq_domain *	file:
+irq_domain	et_gpio/demo/gpio-xilinx.c	/^	struct irq_domain *irq_domain;$/;"	m	struct:xgpio_instance	typeref:struct:irq_domain *	file:
+irq_enable	et/demo/gpio-xilinx.c	/^	u32 irq_enable;$/;"	m	struct:xgpio_instance	typeref:typename:u32	file:
+irq_enable	et_gpio/demo/gpio-xilinx.c	/^	u32 irq_enable;$/;"	m	struct:xgpio_instance	typeref:typename:u32	file:
+main	et/test/main.c	/^int main(int argc, char **argv)$/;"	f	typeref:typename:int
 main	et_gpio/test/main.c	/^int main(int argc, char **argv)$/;"	f	typeref:typename:int
+mask	et/et_gpio_drv.c	/^    unsigned int mask;$/;"	m	struct:et_gpio_dir	typeref:typename:unsigned int	file:
+mask	et/et_gpio_drv.c	/^    unsigned int mask;$/;"	m	struct:et_gpio_value	typeref:typename:unsigned int	file:
+mask	et/test/main.c	/^    unsigned int mask;              \/\/引脚掩码 1为有效的引脚$/;"	m	struct:et_gpio_value	typeref:typename:unsigned int	file:
+mask	et/test/main.c	/^    unsigned int mask;              \/\/引脚掩码 1需要设置的引脚$/;"	m	struct:et_gpio_dir	typeref:typename:unsigned int	file:
+mask	et_gpio/et_gpio_drv.c	/^    unsigned int mask;$/;"	m	struct:et_gpio_dir	typeref:typename:unsigned int	file:
+mask	et_gpio/et_gpio_drv.c	/^    unsigned int mask;$/;"	m	struct:et_gpio_value	typeref:typename:unsigned int	file:
 mask	et_gpio/test/main.c	/^    unsigned int mask;              \/\/引脚掩码 1为有效的引脚$/;"	m	struct:et_gpio_value	typeref:typename:unsigned int	file:
 mask	et_gpio/test/main.c	/^    unsigned int mask;              \/\/引脚掩码 1需要设置的引脚$/;"	m	struct:et_gpio_dir	typeref:typename:unsigned int	file:
+mipi_csi2_rx_subsyst_0	et/demo/pl.dtsi	/^		mipi_csi2_rx_subsyst_0: mipi_csi2_rx_subsystem@80120000 {$/;"	l	label:amba_pl
+mipi_csi2_rx_subsyst_0	et_gpio/demo/pl.dtsi	/^		mipi_csi2_rx_subsyst_0: mipi_csi2_rx_subsystem@80120000 {$/;"	l	label:amba_pl
+misc_clk_0	et/demo/pl.dtsi	/^		misc_clk_0: misc_clk_0 {$/;"	l	label:amba_pl
+misc_clk_0	et_gpio/demo/pl.dtsi	/^		misc_clk_0: misc_clk_0 {$/;"	l	label:amba_pl
+misc_clk_1	et/demo/pl.dtsi	/^		misc_clk_1: misc_clk_1 {$/;"	l	label:amba_pl
+misc_clk_1	et_gpio/demo/pl.dtsi	/^		misc_clk_1: misc_clk_1 {$/;"	l	label:amba_pl
+mmchip	et/demo/gpio-xilinx.c	/^	struct of_mm_gpio_chip mmchip;$/;"	m	struct:xgpio_instance	typeref:struct:of_mm_gpio_chip	file:
+mmchip	et_gpio/demo/gpio-xilinx.c	/^	struct of_mm_gpio_chip mmchip;$/;"	m	struct:xgpio_instance	typeref:struct:of_mm_gpio_chip	file:
+mmchip_dual	et/demo/gpio-xilinx.c	/^	struct of_mm_gpio_chip *mmchip_dual;$/;"	m	struct:xgpio_instance	typeref:struct:of_mm_gpio_chip *	file:
+mmchip_dual	et_gpio/demo/gpio-xilinx.c	/^	struct of_mm_gpio_chip *mmchip_dual;$/;"	m	struct:xgpio_instance	typeref:struct:of_mm_gpio_chip *	file:
+name	et/et_gpio_drv.c	/^    char name[16];$/;"	m	struct:et_gpio_dev	typeref:typename:char[16]	file:
+name	et_gpio/et_gpio_drv.c	/^    char name[16];$/;"	m	struct:et_gpio_dev	typeref:typename:char[16]	file:
+nd	et_gpio/et_gpio_drv_.c	/^	struct device_node *nd;        \/\/设备树的设备节点$/;"	m	struct:alinx_char_dev	typeref:struct:device_node *	file:
+no_init	et/demo/gpio-xilinx.c	/^	bool no_init;$/;"	m	struct:xgpio_instance	typeref:typename:bool	file:
+no_init	et_gpio/demo/gpio-xilinx.c	/^	bool no_init;$/;"	m	struct:xgpio_instance	typeref:typename:bool	file:
+offset	et/demo/gpio-xilinx.c	/^	u32 offset;$/;"	m	struct:xgpio_instance	typeref:typename:u32	file:
+offset	et_gpio/demo/gpio-xilinx.c	/^	u32 offset;$/;"	m	struct:xgpio_instance	typeref:typename:u32	file:
+peripheral_0	et/demo/pl.dtsi	/^		peripheral_0: peripheral@800e0000 {$/;"	l	label:amba_pl
+peripheral_0	et_gpio/demo/pl.dtsi	/^		peripheral_0: peripheral@800e0000 {$/;"	l	label:amba_pl
+pl_key	et/demo/pl.dtsi	/^		pl_key: gpio@80080000 {$/;"	l	label:amba_pl
+pl_key	et_gpio/demo/pl.dtsi	/^		pl_key: gpio@80080000 {$/;"	l	label:amba_pl
+pl_led	et/demo/pl.dtsi	/^		pl_led: gpio@80090000 {$/;"	l	label:amba_pl
+pl_led	et_gpio/demo/pl.dtsi	/^		pl_led: gpio@80090000 {$/;"	l	label:amba_pl
+rs485de	et/demo/pl.dtsi	/^		rs485de: gpio@800c0000 {$/;"	l	label:amba_pl
+rs485de	et_gpio/demo/pl.dtsi	/^		rs485de: gpio@800c0000 {$/;"	l	label:amba_pl
+rs485de1	et/demo/pl.dtsi	/^		rs485de1: gpio@800d0000 {$/;"	l	label:amba_pl
+rs485de1	et_gpio/demo/pl.dtsi	/^		rs485de1: gpio@800d0000 {$/;"	l	label:amba_pl
+test_dir	et/test/main.c	/^int test_dir(int fd)$/;"	f	typeref:typename:int
 test_dir	et_gpio/test/main.c	/^int test_dir(int fd)$/;"	f	typeref:typename:int
+test_value	et/test/main.c	/^int test_value(int fd)$/;"	f	typeref:typename:int
 test_value	et_gpio/test/main.c	/^int test_value(int fd)$/;"	f	typeref:typename:int
+v_frmbuf_wr_0	et/demo/pl.dtsi	/^		v_frmbuf_wr_0: v_frmbuf_wr@800f0000 {$/;"	l	label:amba_pl
+v_frmbuf_wr_0	et_gpio/demo/pl.dtsi	/^		v_frmbuf_wr_0: v_frmbuf_wr@800f0000 {$/;"	l	label:amba_pl
+v_proc_ss_0	et/demo/pl.dtsi	/^		v_proc_ss_0: v_proc_ss@80100000 {$/;"	l	label:amba_pl
+v_proc_ss_0	et_gpio/demo/pl.dtsi	/^		v_proc_ss_0: v_proc_ss@80100000 {$/;"	l	label:amba_pl
+xgpio_dev_pm_ops	et/demo/gpio-xilinx.c	/^static const struct dev_pm_ops xgpio_dev_pm_ops = {$/;"	v	typeref:typename:const struct dev_pm_ops	file:
+xgpio_dev_pm_ops	et_gpio/demo/gpio-xilinx.c	/^static const struct dev_pm_ops xgpio_dev_pm_ops = {$/;"	v	typeref:typename:const struct dev_pm_ops	file:
+xgpio_dir_in	et/demo/gpio-xilinx.c	/^static int xgpio_dir_in(struct gpio_chip *gc, unsigned int gpio)$/;"	f	typeref:typename:int	file:
+xgpio_dir_in	et_gpio/demo/gpio-xilinx.c	/^static int xgpio_dir_in(struct gpio_chip *gc, unsigned int gpio)$/;"	f	typeref:typename:int	file:
+xgpio_dir_out	et/demo/gpio-xilinx.c	/^static int xgpio_dir_out(struct gpio_chip *gc, unsigned int gpio, int val)$/;"	f	typeref:typename:int	file:
+xgpio_dir_out	et_gpio/demo/gpio-xilinx.c	/^static int xgpio_dir_out(struct gpio_chip *gc, unsigned int gpio, int val)$/;"	f	typeref:typename:int	file:
+xgpio_free	et/demo/gpio-xilinx.c	/^static void xgpio_free(struct gpio_chip *chip, unsigned int offset)$/;"	f	typeref:typename:void	file:
+xgpio_free	et_gpio/demo/gpio-xilinx.c	/^static void xgpio_free(struct gpio_chip *chip, unsigned int offset)$/;"	f	typeref:typename:void	file:
+xgpio_get	et/demo/gpio-xilinx.c	/^static int xgpio_get(struct gpio_chip *gc, unsigned int gpio)$/;"	f	typeref:typename:int	file:
+xgpio_get	et_gpio/demo/gpio-xilinx.c	/^static int xgpio_get(struct gpio_chip *gc, unsigned int gpio)$/;"	f	typeref:typename:int	file:
+xgpio_instance	et/demo/gpio-xilinx.c	/^struct xgpio_instance {$/;"	s	file:
+xgpio_instance	et_gpio/demo/gpio-xilinx.c	/^struct xgpio_instance {$/;"	s	file:
+xgpio_irq_mask	et/demo/gpio-xilinx.c	/^static void xgpio_irq_mask(struct irq_data *irq_data)$/;"	f	typeref:typename:void	file:
+xgpio_irq_mask	et_gpio/demo/gpio-xilinx.c	/^static void xgpio_irq_mask(struct irq_data *irq_data)$/;"	f	typeref:typename:void	file:
+xgpio_irq_setup	et/demo/gpio-xilinx.c	/^static int xgpio_irq_setup(struct device_node *np, struct xgpio_instance *chip)$/;"	f	typeref:typename:int	file:
+xgpio_irq_setup	et_gpio/demo/gpio-xilinx.c	/^static int xgpio_irq_setup(struct device_node *np, struct xgpio_instance *chip)$/;"	f	typeref:typename:int	file:
+xgpio_irq_unmask	et/demo/gpio-xilinx.c	/^static void xgpio_irq_unmask(struct irq_data *irq_data)$/;"	f	typeref:typename:void	file:
+xgpio_irq_unmask	et_gpio/demo/gpio-xilinx.c	/^static void xgpio_irq_unmask(struct irq_data *irq_data)$/;"	f	typeref:typename:void	file:
+xgpio_irqchip	et/demo/gpio-xilinx.c	/^static struct irq_chip xgpio_irqchip = {$/;"	v	typeref:struct:irq_chip	file:
+xgpio_irqchip	et_gpio/demo/gpio-xilinx.c	/^static struct irq_chip xgpio_irqchip = {$/;"	v	typeref:struct:irq_chip	file:
+xgpio_irqhandler	et/demo/gpio-xilinx.c	/^static void xgpio_irqhandler(struct irq_desc *desc)$/;"	f	typeref:typename:void	file:
+xgpio_irqhandler	et_gpio/demo/gpio-xilinx.c	/^static void xgpio_irqhandler(struct irq_desc *desc)$/;"	f	typeref:typename:void	file:
+xgpio_of_match	et/demo/gpio-xilinx.c	/^static const struct of_device_id xgpio_of_match[] = {$/;"	v	typeref:typename:const struct of_device_id[]	file:
+xgpio_of_match	et_gpio/demo/gpio-xilinx.c	/^static const struct of_device_id xgpio_of_match[] = {$/;"	v	typeref:typename:const struct of_device_id[]	file:
+xgpio_of_probe	et/demo/gpio-xilinx.c	/^static int xgpio_of_probe(struct platform_device *pdev)$/;"	f	typeref:typename:int	file:
+xgpio_of_probe	et_gpio/demo/gpio-xilinx.c	/^static int xgpio_of_probe(struct platform_device *pdev)$/;"	f	typeref:typename:int	file:
+xgpio_readreg	et/demo/gpio-xilinx.c	/^# define xgpio_readreg(/;"	d	file:
+xgpio_readreg	et_gpio/demo/gpio-xilinx.c	/^# define xgpio_readreg(/;"	d	file:
+xgpio_remove	et/demo/gpio-xilinx.c	/^static int xgpio_remove(struct platform_device *pdev)$/;"	f	typeref:typename:int	file:
+xgpio_remove	et_gpio/demo/gpio-xilinx.c	/^static int xgpio_remove(struct platform_device *pdev)$/;"	f	typeref:typename:int	file:
+xgpio_request	et/demo/gpio-xilinx.c	/^static int xgpio_request(struct gpio_chip *chip, unsigned int offset)$/;"	f	typeref:typename:int	file:
+xgpio_request	et_gpio/demo/gpio-xilinx.c	/^static int xgpio_request(struct gpio_chip *chip, unsigned int offset)$/;"	f	typeref:typename:int	file:
+xgpio_resume	et/demo/gpio-xilinx.c	/^static int __maybe_unused xgpio_resume(struct device *dev)$/;"	f	typeref:typename:int __maybe_unused	file:
+xgpio_resume	et_gpio/demo/gpio-xilinx.c	/^static int __maybe_unused xgpio_resume(struct device *dev)$/;"	f	typeref:typename:int __maybe_unused	file:
+xgpio_runtime_resume	et/demo/gpio-xilinx.c	/^static int __maybe_unused xgpio_runtime_resume(struct device *dev)$/;"	f	typeref:typename:int __maybe_unused	file:
+xgpio_runtime_resume	et_gpio/demo/gpio-xilinx.c	/^static int __maybe_unused xgpio_runtime_resume(struct device *dev)$/;"	f	typeref:typename:int __maybe_unused	file:
+xgpio_runtime_suspend	et/demo/gpio-xilinx.c	/^static int __maybe_unused xgpio_runtime_suspend(struct device *dev)$/;"	f	typeref:typename:int __maybe_unused	file:
+xgpio_runtime_suspend	et_gpio/demo/gpio-xilinx.c	/^static int __maybe_unused xgpio_runtime_suspend(struct device *dev)$/;"	f	typeref:typename:int __maybe_unused	file:
+xgpio_save_regs	et/demo/gpio-xilinx.c	/^static void xgpio_save_regs(struct of_mm_gpio_chip *mm_gc)$/;"	f	typeref:typename:void	file:
+xgpio_save_regs	et_gpio/demo/gpio-xilinx.c	/^static void xgpio_save_regs(struct of_mm_gpio_chip *mm_gc)$/;"	f	typeref:typename:void	file:
+xgpio_set	et/demo/gpio-xilinx.c	/^static void xgpio_set(struct gpio_chip *gc, unsigned int gpio, int val)$/;"	f	typeref:typename:void	file:
+xgpio_set	et_gpio/demo/gpio-xilinx.c	/^static void xgpio_set(struct gpio_chip *gc, unsigned int gpio, int val)$/;"	f	typeref:typename:void	file:
+xgpio_set_irq_type	et/demo/gpio-xilinx.c	/^static int xgpio_set_irq_type(struct irq_data *irq_data, unsigned int type)$/;"	f	typeref:typename:int	file:
+xgpio_set_irq_type	et_gpio/demo/gpio-xilinx.c	/^static int xgpio_set_irq_type(struct irq_data *irq_data, unsigned int type)$/;"	f	typeref:typename:int	file:
+xgpio_set_multiple	et/demo/gpio-xilinx.c	/^static void xgpio_set_multiple(struct gpio_chip *gc, unsigned long *mask,$/;"	f	typeref:typename:void	file:
+xgpio_set_multiple	et_gpio/demo/gpio-xilinx.c	/^static void xgpio_set_multiple(struct gpio_chip *gc, unsigned long *mask,$/;"	f	typeref:typename:void	file:
+xgpio_suspend	et/demo/gpio-xilinx.c	/^static int __maybe_unused xgpio_suspend(struct device *dev)$/;"	f	typeref:typename:int __maybe_unused	file:
+xgpio_suspend	et_gpio/demo/gpio-xilinx.c	/^static int __maybe_unused xgpio_suspend(struct device *dev)$/;"	f	typeref:typename:int __maybe_unused	file:
+xgpio_to_irq	et/demo/gpio-xilinx.c	/^static int xgpio_to_irq(struct gpio_chip *gc, unsigned int offset)$/;"	f	typeref:typename:int	file:
+xgpio_to_irq	et_gpio/demo/gpio-xilinx.c	/^static int xgpio_to_irq(struct gpio_chip *gc, unsigned int offset)$/;"	f	typeref:typename:int	file:
+xgpio_writereg	et/demo/gpio-xilinx.c	/^# define xgpio_writereg(/;"	d	file:
+xgpio_writereg	et_gpio/demo/gpio-xilinx.c	/^# define xgpio_writereg(/;"	d	file:
+xgpio_xlate	et/demo/gpio-xilinx.c	/^static int xgpio_xlate(struct gpio_chip *gc,$/;"	f	typeref:typename:int	file:
+xgpio_xlate	et_gpio/demo/gpio-xilinx.c	/^static int xgpio_xlate(struct gpio_chip *gc,$/;"	f	typeref:typename:int	file:
+xilinx_gpio_driver	et/demo/gpio-xilinx.c	/^static struct platform_driver xilinx_gpio_driver = {$/;"	v	typeref:struct:platform_driver	file:
+xilinx_gpio_driver	et_gpio/demo/gpio-xilinx.c	/^static struct platform_driver xilinx_gpio_driver = {$/;"	v	typeref:struct:platform_driver	file:
