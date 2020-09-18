@@ -165,7 +165,7 @@ unsigned int et_gpio_poll(struct file *file, struct poll_table_struct *wait)
         return PTR_ERR(dev);
     
     spin_lock(&dev->h_lock);
-    value = (*(unsigned int*)(dev->addr_base)) & dev->poll_data.mask;
+    value = readl((unsigned int*)(dev->addr_base)) & readl((unsigned int*)dev->addr_base + GPIO_STATE_OFFSET);
     if(value != dev->poll_data.value) {
         ret = POLLIN;
         dev->poll_data.mask = (value ^ dev->poll_data.value);
@@ -219,8 +219,8 @@ static long et_gpio_ioctl(struct file *file, unsigned int cmd, unsigned long arg
 
         case IOC_POLL_RESET: {
             spin_lock(&dev->h_lock);
-            dev->poll_data.mask = (~(*(unsigned int*)(dev->addr_base + GPIO_STATE_OFFSET))) & (0xFFFFFFFF>>(32-dev->width));
-            dev->poll_data.value = (*(unsigned int*)(dev->addr_base)) & dev->poll_data.mask;
+            dev->poll_data.mask = 0x0;
+            dev->poll_data.value = readl((unsigned int*)dev->addr_base) & readl((unsigned int*)dev->addr_base + GPIO_STATE_OFFSET);
             spin_unlock(&dev->h_lock);
             break;
         }
