@@ -203,17 +203,21 @@ int test_demo()
     close(fd2);
 }
 
-int test_read(int fd0, int fd1)
+int test_read(int fd0, int fd1, int fd2, int fd3)
 {
     printf("read测试\n");
-    struct et_gpio_data data1, data2;
+    struct et_gpio_data data1, data2, data3, data4;
     int i = 0;
     while (i++<10)
     {
         read(fd0, &data1, sizeof(struct et_gpio_data));
         read(fd1, &data2, sizeof(struct et_gpio_data));
+        read(fd0, &data3, sizeof(struct et_gpio_data));
+        read(fd1, &data4, sizeof(struct et_gpio_data));
         printf("value0: %08X, mask0: %08X\n", data1.value, data1.mask);
         printf("value1: %08X, mask1: %08X\n", data2.value, data2.mask);
+        printf("value2: %08X, mask0: %08X\n", data3.value, data3.mask);
+        printf("value3: %08X, mask1: %08X\n", data4.value, data4.mask);
         sleep(1);
     }
 }
@@ -280,13 +284,17 @@ int main(int argc, char **argv)
 {
     int fd0 = open("/dev/et_gpio0", O_RDONLY);
     int fd1 = open("/dev/et_gpio1", O_RDONLY);
+    int fd2 = open("/dev/et_gpio2", O_RDONLY);
+    int fd3 = open("/dev/et_gpio3", O_RDONLY);
     // int fd0 = open("/dev/et_gpio0", O_RDWR);
     // int fd1 = open("/dev/et_gpio1", O_RDWR);
     // test_write(fd0, fd1);
     // sleep(1);
-    test_read(fd0, fd1);
+    test_read(fd0, fd1, fd2, fd3);
     close(fd0);
     close(fd1);
+    close(fd2);
+    close(fd3);
     return 0;
 
     int fd;

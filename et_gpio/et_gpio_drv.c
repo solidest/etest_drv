@@ -20,7 +20,6 @@
 #define ET_DEBUG
 
 #define ET_GPIO_NAME        "et_gpio"
-#define ET_GPIO_MAJOR       300
 #define GPIO_DEV_COUNT      4
 #define GPIO_DEV_BASEA      0x80050000
 #define GPIO_DEV_BASEB      0x80060000
@@ -252,11 +251,13 @@ static struct file_operations et_gpio_fops = {
 
 static int __init et_gpio_init(void)  
 {  
-    int i;
+    int i, iMajor, iMinor;
+    alloc_chrdev_region(&et_gpio_devs[0].devno, 0, GPIO_DEV_COUNT, ET_GPIO_NAME);
+    iMajor = MAJOR(et_gpio_devs[0].devno);
+    iMinor = MINOR(et_gpio_devs[0].devno);
     for (i = 0; i < GPIO_DEV_COUNT; i++) {
-        et_gpio_devs[i].devno = MKDEV(ET_GPIO_MAJOR, i);
-        sprintf(et_gpio_devs[i].name, "%s%d", ET_GPIO_NAME, i);
-        register_chrdev_region(et_gpio_devs[i].devno, 1, et_gpio_devs[i].name);
+        et_gpio_devs[i].devno = MKDEV(iMajor, iMinor+i);
+        sprintf(et_gpio_devs[i].name, "%s%d", ET_GPIO_NAME,  MINOR(et_gpio_devs[i].devno));
         et_gpio_devs[i].cdev.owner = THIS_MODULE;
         cdev_init(&et_gpio_devs[i].cdev, &et_gpio_fops);
         cdev_add(&et_gpio_devs[i].cdev, et_gpio_devs[i].devno, 1);
