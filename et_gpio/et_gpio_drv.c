@@ -130,7 +130,7 @@ static ssize_t et_gpio_write(struct file *file_p, const char __user *buf, size_t
     }
     writel(value, (void*)(dev->addr_base));
     spin_unlock(&dev->h_lock); 
-    return 0;
+    return len;
 }
 
 static ssize_t et_gpio_read(struct file *file_p, char __user *buf, size_t len, loff_t *loff_t_p)
@@ -139,7 +139,7 @@ static ssize_t et_gpio_read(struct file *file_p, char __user *buf, size_t len, l
     struct et_gpio_data data;
 
     if(len != sizeof(struct et_gpio_data)) {
-        return -1;
+        return -EINVAL;
     }
     if (IS_ERR(dev)) {
         return PTR_ERR(dev);
@@ -151,7 +151,7 @@ static ssize_t et_gpio_read(struct file *file_p, char __user *buf, size_t len, l
     spin_unlock(&dev->h_lock);
 
     copy_to_user(buf, &data, len);
-    return 0;
+    return len;
 }
 
 unsigned int et_gpio_poll(struct file *file, struct poll_table_struct *wait)
