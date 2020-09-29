@@ -413,7 +413,7 @@ void call_test_dir()
 int call_test_poll()
 {
     printf("-----------call_test_poll---------\n");
-    int fd0 = open("/dev/et_gpio0", O_RDONLY);
+    int fd0 = open("/dev/et_gpio0", O_RDONLY | O_NONBLOCK);
     test_poll_1(fd0);
     
     close(fd0);
