@@ -8,14 +8,12 @@
 #include <linux/module.h>  
 #include <linux/kernel.h>  
 #include <linux/fs.h>  
-#include <linux/init.h>  
-#include <linux/ide.h>  
 #include <linux/types.h>  
 #include <linux/errno.h>
 #include <linux/cdev.h>
 #include <linux/device.h>
 #include <linux/poll.h>
-#include <asm/uaccess.h>
+#include <asm/io.h>
 
 #define ET_DEBUG
 
@@ -52,6 +50,7 @@ struct et_gpio_dev {
     struct et_gpio_data poll_data;
     wait_queue_head_t h_wait;
     spinlock_t h_lock;
+    wait_queue_head_t h_poll;
     #ifdef ET_DEBUG
     unsigned int demo_value;
     unsigned int demo_state;
@@ -76,8 +75,8 @@ static int et_gpio_open(struct inode * inode_p, struct file * file_p)
     file_p->private_data = dev;
     if(file_p->f_mode & FMODE_WRITE) {
         printk("device %s reset when open.\n", dev->name);
-        writel(0x0, (void*)(dev->addr_base));
-        writel(0xFFFFFFFF, (void*)(dev->addr_base + GPIO_STATE_OFFSET));
+        iowrite32(0x0, (void*)(dev->addr_base));
+        iowrite32(0xFFFFFFFF, (void*)(dev->addr_base + GPIO_STATE_OFFSET));
     }
     spin_unlock(&dev->h_lock);  
     return 0;
@@ -94,8 +93,8 @@ static int et_gpio_close(struct inode * inode_p, struct file * file_p)
     file_p->private_data = NULL;
     if(file_p->f_mode & FMODE_WRITE) {
         printk("device %s reset when close.\n", dev->name);
-        writel(0x0, (void*)(dev->addr_base));
-        writel(0xFFFFFFFF, (void*)(dev->addr_base + GPIO_STATE_OFFSET));        
+        iowrite32(0x0, (void*)(dev->addr_base));
+        iowrite32(0xFFFFFFFF, (void*)(dev->addr_base + GPIO_STATE_OFFSET));        
     }
     spin_unlock(&dev->h_lock);  
     return 0;
@@ -115,8 +114,8 @@ static ssize_t et_gpio_write(struct file *file_p, const char __user *buf, size_t
     copy_from_user(&data, buf, len);
 
     spin_lock(&dev->h_lock);
-    value = readl((void*)dev->addr_base);
-    state = readl((void*)dev->addr_base + GPIO_STATE_OFFSET);
+    value = ioread32((void*)dev->addr_base);
+    state = ioread32((void*)dev->addr_base + GPIO_STATE_OFFSET);
     for(i = 0; i < dev->width; i++) {
         if(data.mask == 0)
             break;
@@ -128,7 +127,7 @@ static ssize_t et_gpio_write(struct file *file_p, const char __user *buf, size_t
                 value &= ~pos;
         }
     }
-    writel(value, (void*)(dev->addr_base));
+    iowrite32(value, (void*)(dev->addr_base));
     spin_unlock(&dev->h_lock); 
     return len;
 }
@@ -146,8 +145,8 @@ static ssize_t et_gpio_read(struct file *file_p, char __user *buf, size_t len, l
     }
 
     spin_lock(&dev->h_lock);
-    data.value = readl((void*)dev->addr_base);
-    data.mask = readl((void*)dev->addr_base + GPIO_STATE_OFFSET);
+    data.value = ioread32((void*)dev->addr_base);
+    data.mask = ioread32((void*)dev->addr_base + GPIO_STATE_OFFSET);
     spin_unlock(&dev->h_lock);
 
     copy_to_user(buf, &data, len);
@@ -158,19 +157,20 @@ unsigned int et_gpio_poll(struct file *file, struct poll_table_struct *wait)
 {
     struct et_gpio_dev * dev = (struct et_gpio_dev *)file->private_data;
     unsigned int ret = 0, value;
-    // printk("%s : %d\n", __func__, __LINE__);
 
     if (IS_ERR(dev))
         return PTR_ERR(dev);
     
     spin_lock(&dev->h_lock);
-    value = readl((unsigned int*)(dev->addr_base)) & readl((unsigned int*)dev->addr_base + GPIO_STATE_OFFSET);
+    poll_wait(file, &dev->h_poll, wait);
+    value = ioread32((unsigned int*)(dev->addr_base)) & ioread32((unsigned int*)dev->addr_base + GPIO_STATE_OFFSET);
     if(value != dev->poll_data.value) {
         ret = POLLIN;
         dev->poll_data.mask = (value ^ dev->poll_data.value);
         dev->poll_data.value = value;
     }
     spin_unlock(&dev->h_lock);
+    printk("%s : %d\n", __func__, ret);
     return ret;
 }
 
@@ -189,7 +189,7 @@ static long et_gpio_ioctl(struct file *file, unsigned int cmd, unsigned long arg
             int i;
             unsigned int state, pos;
             spin_lock(&dev->h_lock);
-            state = readl((void*)dev->addr_base + GPIO_STATE_OFFSET);
+            state = ioread32((void*)dev->addr_base + GPIO_STATE_OFFSET);
             for (i = 0; i < dev->width; i++) {
                 if (data->mask == 0)
                     break;
@@ -201,7 +201,7 @@ static long et_gpio_ioctl(struct file *file, unsigned int cmd, unsigned long arg
                         state &= ~pos;
                 }
             }
-            writel(state, (unsigned int*)(dev->addr_base + GPIO_STATE_OFFSET));
+            iowrite32(state, (unsigned int*)(dev->addr_base + GPIO_STATE_OFFSET));
             spin_unlock(&dev->h_lock);
             break;            
         }
@@ -210,7 +210,7 @@ static long et_gpio_ioctl(struct file *file, unsigned int cmd, unsigned long arg
             struct et_gpio_data res;
             spin_lock(&dev->h_lock);
             res.mask = (0xFFFFFFFF >> (32-dev->width));
-            res.value = readl((void*)dev->addr_base + GPIO_STATE_OFFSET);
+            res.value = ioread32((void*)dev->addr_base + GPIO_STATE_OFFSET);
             spin_unlock(&dev->h_lock);
             copy_to_user((void*)arg, &res, sizeof(struct et_gpio_data));
             break;
@@ -219,7 +219,7 @@ static long et_gpio_ioctl(struct file *file, unsigned int cmd, unsigned long arg
         case IOC_POLL_RESET: {
             spin_lock(&dev->h_lock);
             dev->poll_data.mask = 0x0;
-            dev->poll_data.value = readl((unsigned int*)dev->addr_base) & readl((unsigned int*)dev->addr_base + GPIO_STATE_OFFSET);
+            dev->poll_data.value = ioread32((unsigned int*)dev->addr_base) & ioread32((unsigned int*)dev->addr_base + GPIO_STATE_OFFSET);
             spin_unlock(&dev->h_lock);
             break;
         }
@@ -272,6 +272,7 @@ static int __init et_gpio_init(void)
             return PTR_ERR(et_gpio_devs[i].device);
         }
         spin_lock_init(&et_gpio_devs[i].h_lock);
+        init_waitqueue_head(&et_gpio_devs[i].h_poll);
         printk("device %s initial is ok!\n", et_gpio_devs[i].name);
     }
 
