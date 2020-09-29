@@ -64,6 +64,7 @@ static int ax_pwm_open(struct inode *inode_p, struct file *file_p)
 {  
     /* 设置私有数据 */
     file_p->private_data = &alinx_char;  
+    printk("---drv method:ax_pwm_open!\n");//warning
       
     return 0;  
 }  
@@ -73,6 +74,7 @@ static long ax_pwm_ioctl(struct file *file_p, unsigned int cmd, unsigned long ar
 {   
     /* 获取私有数据 */
     struct alinx_char_dev *dev = file_p->private_data;
+    printk("---drv method:ax_pwm_ioctl!\n");
     
     switch(cmd) 
     {
@@ -101,6 +103,7 @@ static long ax_pwm_ioctl(struct file *file_p, unsigned int cmd, unsigned long ar
 /* release函数实现, 对应到Linux系统调用函数的close函数 */  
 static int ax_pwm_release(struct inode *inode_p, struct file *file_p)  
 {   
+    printk("---drv method:ax_pwm_release!\n");
     return 0;  
 }  
 
@@ -124,6 +127,7 @@ static struct miscdevice led_miscdev = {
 /* probe函数实现, 驱动和设备匹配时会被调用 */
 static int ax_pwm_probe(struct platform_device *dev)
 {    
+    //printk("---drv method:ax_pwm_probe\n");
     /* 用于接受返回值 */
     u32 ret = 0;
     /* 频率的寄存器物理地址 */
@@ -176,6 +180,7 @@ static int ax_pwm_probe(struct platform_device *dev)
 
 static int ax_pwm_remove(struct platform_device *dev)
 {
+    printk("---drv method:ax_pwm_remove!\n");
     /* 释放虚拟地址 */
     iounmap((unsigned int *)alinx_char.freq);
     iounmap((unsigned int *)alinx_char.duty);
@@ -207,6 +212,8 @@ static struct platform_driver pwm_driver = {
 /* 驱动入口函数 */
 static int __init pwm_drv_init(void)
 {
+    printk("---drv method:pwm_drv_init!\n");
+
     /* 在入口函数中调用platform_driver_register, 注册platform驱动 */
     return platform_driver_register(&pwm_driver);
 }
@@ -214,6 +221,7 @@ static int __init pwm_drv_init(void)
 /* 驱动出口函数 */
 static void __exit pwm_drv_exit(void)
 {
+    printk("---drv method:pwm_drv_exit!");
     /* 在出口函数中调用platform_driver_register, 卸载platform驱动 */
     platform_driver_unregister(&pwm_driver);
 }

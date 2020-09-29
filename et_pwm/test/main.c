@@ -29,17 +29,13 @@ int main(int argc, char *argv[])
     char *filename;
     unsigned int duty = 0x0fffffff;
 
-    if(argc != 2)
-    {
-        printf("Error Usage\r\n");
-        return -1;
-    }
 
-    filename = argv[1];
-    fd = open(filename, O_RDWR);
+    //filename = argv[1];
+    //fd = open(filename, O_RDWR);
+    fd=open("/dev/ax_pwm",O_RDWR);
     if(fd < 0)
     {
-        printf("file %s open failed\r\n", argv[1]);
+        printf("file %s open failed\r\n", "/dev/ax_pwm");
         return -1;
     }
 
@@ -51,9 +47,10 @@ int main(int argc, char *argv[])
         close(fd);
         return -1;
     }
-
-    while(1)
+    int i=0;
+    while(++i<10)
     {
+        printf("#### %d#####",i);
         if(duty <= 0xefffffff && 0 == flag)
         {
             duty += 2000000;
