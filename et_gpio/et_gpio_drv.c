@@ -83,6 +83,7 @@ static int et_gpio_open(struct inode * inode_p, struct file * file_p)
 static int et_gpio_close(struct inode * inode_p, struct file * file_p)
 {
     struct et_gpio_dev * dev = container_of(inode_p->i_cdev, struct et_gpio_dev, cdev);
+    _poll_stop(dev);
 
     spin_lock(&dev->h_lock);
     file_p->private_data = NULL;
@@ -90,17 +91,15 @@ static int et_gpio_close(struct inode * inode_p, struct file * file_p)
         iowrite32(0x0, (void*)(dev->addr_base));
         iowrite32(0xFFFFFFFF, (void*)(dev->addr_base + GPIO_STATE_OFFSET));     //set all pin INPUT      
     }
-    _poll_stop(dev);
-
     spin_unlock(&dev->h_lock);  
     return 0;
 }
 
 static ssize_t et_gpio_write(struct file *file_p, const char __user *buf, size_t len, loff_t *loff_t_p)
 {
-    struct et_gpio_dev * dev = (struct et_gpio_dev *)file_p->private_data;
     struct et_gpio_data data;
     unsigned int value, state, pos, i;
+    struct et_gpio_dev * dev = (struct et_gpio_dev *)file_p->private_data;
 
     if(len != sizeof(struct et_gpio_data)) {
         return -EINVAL;
@@ -128,8 +127,8 @@ static ssize_t et_gpio_write(struct file *file_p, const char __user *buf, size_t
 
 static ssize_t et_gpio_read(struct file *file_p, char __user *buf, size_t len, loff_t *loff_t_p)
 {
-    struct et_gpio_dev * dev = (struct et_gpio_dev *)file_p->private_data;
     struct et_gpio_data data;
+    struct et_gpio_dev * dev = (struct et_gpio_dev *)file_p->private_data;
 
     if(len != sizeof(struct et_gpio_data)) {
         return -EINVAL;
@@ -151,12 +150,13 @@ unsigned int et_gpio_poll(struct file *file, struct poll_table_struct *wait)
     unsigned int ret = 0;
     
     spin_lock(&dev->h_lock);
+    printk("%s : %d before poll_wait\n", __func__, __LINE__);
     poll_wait(file, &dev->h_poll, wait);
     if(dev->poll_data.mask) {
         ret = POLLIN;
     }
     spin_unlock(&dev->h_lock);
-    printk("%s : %d\n", __func__, ret);
+    printk("%s : %d after poll_wait\n", __func__, __LINE__);
     return ret;
 }
 
@@ -164,14 +164,14 @@ static enum hrtimer_restart _do_poll(struct hrtimer *hrt)
 {
     unsigned int value, mask;
     struct et_gpio_dev * dev = container_of(hrt, struct et_gpio_dev, timer);
+    printk("%s : %d\n", __func__, __LINE__);
     spin_lock(&dev->h_lock);
     value = ioread32((unsigned int*)(dev->addr_base)) & ioread32((unsigned int*)dev->addr_base + GPIO_STATE_OFFSET);
     mask = (value ^ dev->poll_data.value);
-    printk("%s : %d\n", __func__, __LINE__);
     #ifdef ET_DEBUG
     if(!dev->poll_data.mask) {
         dev->poll_data.value = 1;
-        dev->poll_data.mask = 1;        
+        dev->poll_data.mask = 1; 
         wake_up_interruptible(&dev->h_poll);
         printk("%s : %d\n", __func__, __LINE__);
     }
@@ -183,6 +183,7 @@ static enum hrtimer_restart _do_poll(struct hrtimer *hrt)
     }
     #endif
     spin_unlock(&dev->h_lock);
+    hrtimer_forward(hrt, hrt->base->get_time(), ktime_set(0, dev->timer_step));
     return HRTIMER_RESTART;
 }
 
@@ -196,10 +197,10 @@ static int _poll_start(struct et_gpio_dev* dev, unsigned long tick)
     dev->timer_step = tick;
     dev->poll_data.mask = 0x0;
     dev->poll_data.value = ioread32((unsigned int*)dev->addr_base) & ioread32((unsigned int*)dev->addr_base + GPIO_STATE_OFFSET);
-    hrtimer_init(&dev->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-    dev->timer.function = _do_poll;
-    hrtimer_start(&dev->timer, ktime_set(0, tick), HRTIMER_MODE_REL);
+
     spin_unlock(&dev->h_lock);
+    printk("tick = %ld\n", tick);
+    hrtimer_start(&dev->timer, ktime_set(0, tick), HRTIMER_MODE_REL);
     printk("%s : %d\n", __func__, __LINE__);
     return 0;
 };
@@ -315,6 +316,8 @@ static int __init et_gpio_init(void)
         }
         spin_lock_init(&et_gpio_devs[i].h_lock);
         init_waitqueue_head(&et_gpio_devs[i].h_poll);
+        hrtimer_init(&et_gpio_devs[i].timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+        et_gpio_devs[i].timer.function = _do_poll;
         et_gpio_devs[i].timer_step = 0;
         printk("device %s initial is ok!\n", et_gpio_devs[i].name);
     }
