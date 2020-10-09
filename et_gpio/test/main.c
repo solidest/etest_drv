@@ -16,8 +16,9 @@
 #define IOC_MAGIC_DIO 'd'
 #define IOC_SET_DIR _IOW(IOC_MAGIC_DIO, 1, long)
 #define IOC_GET_DIR _IOR(IOC_MAGIC_DIO, 2, long)
-#define IOC_POLL_RESET _IO(IOC_MAGIC_DIO, 3)
-#define IOC_POLL_READ _IOR(IOC_MAGIC_DIO, 4, long)
+#define IOC_POLL_START _IOW(IOC_MAGIC_DIO, 3, long)
+#define IOC_POLL_GET _IOR(IOC_MAGIC_DIO, 4, long)
+#define IOC_POLL_STOP _IO(IOC_MAGIC_DIO, 5)
 
 
 #define CHANNEL_WIDTH   17
@@ -28,221 +29,242 @@ struct et_gpio_data {
     unsigned int mask;
 };
 
-int test_value(int fd)
+
+void continue_press_c()
 {
-    printf("开始测试: %s\n", __func__);
-    struct et_gpio_data dirs;
-    struct et_gpio_data data1, data2;
+    printf("press \'c\' then continue.");
+    char c = getchar();
 
-    dirs.value = 0x15555;
-    dirs.mask = FULL_WIDTH;
-    ioctl(fd, IOC_SET_DIR, dirs);
-
-    data1.value = 0xFFFFFFFF;
-    data1.mask = 0xFFFFFFFF;
-    write(fd, &data1, sizeof(struct et_gpio_data));
-    sleep(1);
-    read(fd, &data2, sizeof(struct et_gpio_data));
-    if(data2.value!=((~dirs.value) & data1.value & FULL_WIDTH) || data2.mask!=dirs.value) {
-        printf("ERROR %s : %d\n", __func__, __LINE__);
-        printf("value: %08X, mask: %08X\n", (~dirs.value) & data1.value & FULL_WIDTH, data2.mask);
-        return -1;
+    while (c != 'c') {
+        c = getchar();
     }
-    return 0;
 }
 
-
-int test_dir(int fd)
+int test_dir()
 {
-    printf("开始测试: %s\n", __func__);
     struct et_gpio_data dirs1, dirs2;
-    
-    dirs1.value = 0;
-    dirs1.mask = FULL_WIDTH,
-    ioctl(fd, IOC_SET_DIR, dirs1);
-    ioctl(fd, IOC_GET_DIR, &dirs2);
-    if((dirs2.value&FULL_WIDTH) != 0 || dirs2.mask != FULL_WIDTH) {
-        printf("ERROR %s : %d\n", __func__, __LINE__);
-        printf("value: %d, mask: %d\n", dirs2.value, dirs2.mask);
-        return -1;
-    }
-
-    dirs1.value = 0xFFFFFFFF;
-    dirs1.mask = 0xFFFFFFFF,
-    ioctl(fd, IOC_SET_DIR, dirs1);
-    ioctl(fd, IOC_GET_DIR, &dirs2);
-    if((dirs2.value&FULL_WIDTH) != FULL_WIDTH || dirs2.mask != FULL_WIDTH) {
-        printf("ERROR %s : %d\n", __func__, __LINE__);
-        printf("value: %x, mask: %x\n", dirs2.value, dirs2.mask);
-        return -1;
-    }
-
-    dirs1.value = 0x0;
-    dirs1.mask = 0x00000001 << 8;
-    ioctl(fd, IOC_SET_DIR, dirs1);
-    ioctl(fd, IOC_GET_DIR, &dirs2);
-    if((dirs2.value&FULL_WIDTH) != (unsigned int)0x1FEFF || dirs2.mask != FULL_WIDTH) {
-        printf("ERROR %s : %d\n", __func__, __LINE__);
-        printf("value: %x, mask: %x\n", dirs2.value, dirs2.mask);
-        return -1;
-    }
-
-    dirs1.value = 0x0;
-    dirs1.mask = 0x03;
-    ioctl(fd, IOC_SET_DIR, dirs1);
-    ioctl(fd, IOC_GET_DIR, &dirs2);
-    if((dirs2.value&FULL_WIDTH) != 0x1FEFC || dirs2.mask != FULL_WIDTH) {
-        printf("ERROR %s : %d\n", __func__, __LINE__);
-        printf("value: %x, mask: %x\n", dirs2.value, dirs2.mask);
-        return -1;
-    }
-
-    dirs1.value = 0x2;
-    dirs1.mask = 0x02;
-    ioctl(fd, IOC_SET_DIR, dirs1);
-    ioctl(fd, IOC_GET_DIR, &dirs2);
-    if((dirs2.value&FULL_WIDTH) != 0x1FEFE || dirs2.mask != FULL_WIDTH) {
-        printf("ERROR %s : %d\n", __func__, __LINE__);
-        printf("value: %x, mask: %x\n", dirs2.value, dirs2.mask);
-        return -1;
-    }
-    return 0;
-}
-
-int test_poll(int fd)
-{
-    printf("开始测试: %s\n", __func__);
-
-    struct et_gpio_data dirs;
-    dirs.value = 0x15555;
-    dirs.mask = FULL_WIDTH;
-    ioctl(fd, IOC_SET_DIR, dirs);
-
-    int epfd = epoll_create(10);
-    struct epoll_event evs = {
-        .events = EPOLLIN,
-    };
-    int res = epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &evs);
-    ioctl(fd, IOC_POLL_RESET);
-    int evcount1 = epoll_wait(epfd, &evs, 1, 0);
-
-    struct et_gpio_data data;
-    data.value = 0xFF667755;
-    data.mask = 0x55667788;
-    write(fd, &data, sizeof(struct et_gpio_data));
-    ioctl(fd, IOC_POLL_READ, &data);
-    int evcount2 = epoll_wait(epfd, &evs, 1, 0);
-    if(evcount1!=0 || evcount2!=0 || data.value!=0 || data.mask!=((~dirs.value)&(FULL_WIDTH))) {
-        printf("ERROR %s : %d\n", __func__, __LINE__);
-        printf("value: %x, mask: %x\n", data.value, data.mask);
-        return -1;
-    }
-    return 0;
-}
-int test_poll_1(int fd)
-{
-    printf("test_poll_1 开始测试: %s\n", __func__);
-
-    struct et_gpio_data dirs;
-    dirs.value = 0x1FFFF;
-    dirs.mask = FULL_WIDTH;
-    ioctl(fd, IOC_SET_DIR, dirs);
-
-    int epfd = epoll_create(10);
-    struct epoll_event evs = {
-        .events = EPOLLIN,
-    };
-    int res = epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &evs);
-    ioctl(fd, IOC_POLL_RESET);
-    int evcount1,i;
-    struct et_gpio_data data,data_r;
-    while(++i<200)
-    {
-        evcount1 = epoll_wait(epfd, &evs, 1, 0);
-        printf("evcount1 is %d\n",evcount1);
-        if(evcount1==-1)
-        {
-            printf("ERROR %s : %d\n", __func__, __LINE__);
-            return 0;
-        }
-        if(evs.events==EPOLLIN)
-        {
-            read(fd, &data_r, sizeof(struct et_gpio_data));
-            printf("read value: %x, mask: %x\n", data_r.value, data_r.mask);
-            ioctl(fd, IOC_POLL_READ, &data);
-            printf("ioctl value: %x, mask: %x\n", data.value, data.mask);
-        }
-        sleep(1);
-    }
-    return 0;
-}
-
-void test_manual(char* file)
-{
-    printf("手动测试\n");
-    int fd = open(file, O_RDWR);
-    struct et_gpio_data dirs;
-    struct et_gpio_data data;
-
-    dirs.value = 0x100FF;
-    dirs.mask = FULL_WIDTH;
-    ioctl(fd, IOC_SET_DIR, dirs);
-
-    data.value = 0x00FF;
-    data.mask = 0xFFFF;
-    write(fd, &data, sizeof(struct et_gpio_data));
-
-    ioctl(fd, IOC_POLL_RESET);
-    int epfd = epoll_create(10);
-    struct epoll_event evs = {
-        .events = EPOLLIN,
-    };
-    int res = epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &evs);
-    int ev_count = -2;
-
-    int count = 0;
-    while (1)
-    {
-        count++;
-        sleep(1);
-
-        if(ev_count==-2) {
-            read(fd, &data, sizeof(struct et_gpio_data));
-            printf("value: %05X, mask: %05X\n", data.value, data.mask);
-        } else if(ev_count>0) {
-            ioctl(fd, IOC_POLL_READ, &data);
-            printf("value: %05X, mask: %05X, event: %d\n", data.value, data.mask, ev_count);
-        }
-        ev_count = epoll_wait(epfd, &evs, 1, 0);
-
-        data.value = count%2==0 ? 0x10000 : 0x0;
-        data.mask = 0x10000;
-        write(fd, &data, sizeof(struct et_gpio_data));
-    }
-}
-
-
-int test_demo()
-{
-    printf("demo测试\n");
-    struct et_gpio_data data1, data2;
-
-    int fd2 = open("/dev/et_gpio0", O_RDWR);
+    int fd0 = open("/dev/et_gpio0", O_RDWR);
     int fd1 = open("/dev/et_gpio1", O_RDWR);
+    int fd2 = open("/dev/et_gpio2", O_RDWR);
+    int fd3 = open("/dev/et_gpio3", O_RDWR);
 
-    data1.value = 0x100FF;
-    data1.mask = FULL_WIDTH;
-    write(fd2, &data1, sizeof(struct et_gpio_data));
+    for (int i = 0; i < CHANNEL_WIDTH; i++) {
+        dirs1.value = 0xFFFFFFFF >> (32-i);
+        dirs1.mask = 0xFFFFFFFF >> (32-i);
+        ioctl(fd0, IOC_SET_DIR, dirs1);
+        ioctl(fd1, IOC_SET_DIR, dirs1);
+        ioctl(fd2, IOC_SET_DIR, dirs1);
+        ioctl(fd3, IOC_SET_DIR, dirs1);
+        sleep(1);
+
+        ioctl(fd0, IOC_GET_DIR, &dirs2);
+        printf("SET DIR value0=%08X, mask0=%08X\n", dirs1.value, dirs1.mask);
+        printf("GET DIR value0=%08X, mask0=%08X\n", dirs2.value, dirs2.mask);
+        ioctl(fd1, IOC_GET_DIR, &dirs2);
+        printf("SET DIR value1=%08X, mask1=%08X\n", dirs1.value, dirs1.mask);
+        printf("GET DIR value1=%08X, mask1=%08X\n", dirs2.value, dirs2.mask);
+        ioctl(fd2, IOC_GET_DIR, &dirs2);
+        printf("SET DIR value2=%08X, mask2=%08X\n", dirs1.value, dirs1.mask);
+        printf("GET DIR value2=%08X, mask2=%08X\n", dirs2.value, dirs2.mask);
+        ioctl(fd3, IOC_GET_DIR, &dirs2);
+        printf("SET DIR value3=%08X, mask3=%08X\n", dirs1.value, dirs1.mask);
+        printf("GET DIR value3=%08X, mask3=%08X\n", dirs2.value, dirs2.mask);
+    }
+
+    for (int i = 0; i < CHANNEL_WIDTH; i++) {
+        dirs1.value = 0x0;
+        dirs1.mask = 0xFFFFFFFF >> (32-i);
+        ioctl(fd0, IOC_SET_DIR, dirs1);
+        ioctl(fd1, IOC_SET_DIR, dirs1);
+        ioctl(fd2, IOC_SET_DIR, dirs1);
+        ioctl(fd3, IOC_SET_DIR, dirs1);
+        sleep(1);
+
+        ioctl(fd0, IOC_GET_DIR, &dirs2);
+        printf("SET DIR value0=%08X, mask0=%08X\n", dirs1.value, dirs1.mask);
+        printf("GET DIR value0=%08X, mask0=%08X\n", dirs2.value, dirs2.mask);
+        ioctl(fd1, IOC_GET_DIR, &dirs2);
+        printf("SET DIR value1=%08X, mask1=%08X\n", dirs1.value, dirs1.mask);
+        printf("GET DIR value1=%08X, mask1=%08X\n", dirs2.value, dirs2.mask);
+        ioctl(fd2, IOC_GET_DIR, &dirs2);
+        printf("SET DIR value2=%08X, mask2=%08X\n", dirs1.value, dirs1.mask);
+        printf("GET DIR value2=%08X, mask2=%08X\n", dirs2.value, dirs2.mask);
+        ioctl(fd3, IOC_GET_DIR, &dirs2);
+        printf("SET DIR value3=%08X, mask3=%08X\n", dirs1.value, dirs1.mask);
+        printf("GET DIR value3=%08X, mask3=%08X\n", dirs2.value, dirs2.mask);
+    }
+
+    dirs1.value = 0x55555555 & FULL_WIDTH;
+    dirs1.mask = 0x55555555;
+    ioctl(fd0, IOC_SET_DIR, dirs1);
+    ioctl(fd1, IOC_SET_DIR, dirs1);
+    ioctl(fd2, IOC_SET_DIR, dirs1);
+    ioctl(fd3, IOC_SET_DIR, dirs1);
     sleep(1);
-    read(fd1, &data2, sizeof(struct et_gpio_data));
-    printf("value: %08X, mask: %08X\n", data2.value, data2.mask);
+
+    ioctl(fd0, IOC_GET_DIR, &dirs2);
+    printf("SET DIR value0=%08X, mask0=%08X\n", dirs1.value, dirs1.mask);
+    printf("GET DIR value0=%08X, mask0=%08X\n", dirs2.value, dirs2.mask);
+    ioctl(fd1, IOC_GET_DIR, &dirs2);
+    printf("SET DIR value1=%08X, mask1=%08X\n", dirs1.value, dirs1.mask);
+    printf("GET DIR value1=%08X, mask1=%08X\n", dirs2.value, dirs2.mask);
+    ioctl(fd2, IOC_GET_DIR, &dirs2);
+    printf("SET DIR value2=%08X, mask2=%08X\n", dirs1.value, dirs1.mask);
+    printf("GET DIR value2=%08X, mask2=%08X\n", dirs2.value, dirs2.mask);
+    ioctl(fd3, IOC_GET_DIR, &dirs2);
+    printf("SET DIR value3=%08X, mask3=%08X\n", dirs1.value, dirs1.mask);
+    printf("GET DIR value3=%08X, mask3=%08X\n", dirs2.value, dirs2.mask);
+    
+    close(fd0);
     close(fd1);
     close(fd2);
+    close(fd3);
+    return 0;
 }
 
-int test_read(int fd0, int fd1, int fd2, int fd3)
+int test_read(const int idx, const char* file_path)
 {
-    printf("read测试\n");
+    struct et_gpio_data dirs;
+    struct et_gpio_data data;
+    int i;
+    int pos;
+    int fd = open(file_path, O_RDONLY);
+    
+    printf("\n%s test begin\n", file_path);
+    sleep(1);
+
+    pos = 0;
+    while (pos < CHANNEL_WIDTH) {
+        dirs.value = 1 << pos;
+        dirs.mask = 1 << pos;
+        ioctl(fd, IOC_SET_DIR, dirs);
+        i = 0;
+        while (i++<30) {
+            read(fd, &data, sizeof(struct et_gpio_data));
+            printf("card%d value: %08X, mask: %08X\n", idx, data.value, data.mask);
+            sleep(1);
+        }
+        pos++;
+    }
+    close(fd);
+    return 0;
+}
+
+int test_write()
+{
+    int fd0 = open("/dev/et_gpio0", O_RDWR);
+    int fd1 = open("/dev/et_gpio1", O_RDWR);
+    int fd2 = open("/dev/et_gpio2", O_RDWR);
+    int fd3 = open("/dev/et_gpio3", O_RDWR);
+
+    struct et_gpio_data dirs0, dirs1,dirs2,dirs3;
+    dirs0.value = 0x0;
+    dirs0.mask = FULL_WIDTH;
+    dirs1.value = 0x0;
+    dirs1.mask = FULL_WIDTH;
+    dirs2.value = 0x0;
+    dirs2.mask = FULL_WIDTH;
+    dirs3.value = 0x0;
+    dirs3.mask = FULL_WIDTH;
+    ioctl(fd0, IOC_SET_DIR, dirs0);
+    ioctl(fd1, IOC_SET_DIR, dirs1);
+    ioctl(fd2, IOC_SET_DIR, dirs2);
+    ioctl(fd3, IOC_SET_DIR, dirs3);
+    sleep(1);
+
+    struct et_gpio_data data;
+    int i = 0;
+    while (i++<30) {
+        data.value = data.value ? 0 : 0xFFFFFFFF;
+        data.mask = FULL_WIDTH;
+        write(fd1, &data, sizeof(struct et_gpio_data));
+        write(fd0, &data, sizeof(struct et_gpio_data));
+        write(fd2, &data, sizeof(struct et_gpio_data));
+        write(fd3, &data, sizeof(struct et_gpio_data)); 
+        printf("all write %08X\n", data.value);
+        sleep(1);
+    }
+
+    close(fd0);
+    close(fd1);
+    close(fd2);
+    close(fd3);
+    return 0;
+}
+
+int test_poll_15s(const char* file_path)
+{
+    struct epoll_event evs;
+    int err, epfd, fd;
+    struct et_gpio_data dirs ={
+        .value = 0xFFFFFFFF,
+        .mask = FULL_WIDTH,       
+    }, d;
+
+    fd = open(file_path, O_RDWR | O_NONBLOCK);
+    if(!fd) {
+        printf("ERROR LINE:%d\n", __LINE__);
+        err = -1;
+        goto CLEAN;
+    }
+
+    if(ioctl(fd, IOC_SET_DIR, dirs)) {
+        printf("ERROR LINE:%d\n", __LINE__);
+        err = -1;
+        goto CLEAN;
+    }
+    sleep(1);
+
+    epfd = epoll_create(1);
+    if(epfd<0) {
+        printf("ERROR LINE:%d\n", __LINE__);
+        err = epfd;
+        goto CLEAN;
+    }
+
+    evs.events = EPOLLPRI;
+    err = epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &evs);
+    if(err<0) {
+        printf("ERROR LINE:%d\n", __LINE__);
+        goto CLEAN;
+    }
+
+    ioctl(fd, IOC_POLL_START, 500); //0.5ms tick
+
+    printf("\nbegin poll on \"%s\"\n", file_path);
+    err = ioctl(fd, IOC_POLL_GET, &d);
+    err = epoll_wait(epfd, &evs, 1, 15000);
+
+    if(err<0) {
+        printf("ERROR LINE:%d\n", __LINE__);
+        goto CLEAN;
+    } else {
+        struct et_gpio_data d;
+        ioctl(fd, IOC_POLL_GET, &d);
+        printf("poll_result=%d value=%08X mask=%08X\n", err, d.value & d.mask, d.mask);
+        err = 0;
+        goto CLEAN;
+    }
+
+CLEAN:
+    if(fd>0) {
+        close(fd);
+    }
+    if(epfd>0) {
+        close(epfd);
+    }
+    return err;
+}
+
+int test_poll_loop()
+{
+    struct epoll_event evs[5];
+    int err, epfd;
+    int fd0 = open("/dev/et_gpio0", O_RDWR);
+    int fd1 = open("/dev/et_gpio1", O_RDWR);
+    int fd2 = open("/dev/et_gpio2", O_RDWR);
+    int fd3 = open("/dev/et_gpio3", O_RDWR);
+
     struct et_gpio_data dirs0, dirs1,dirs2,dirs3;
     dirs0.value = 0x1FFFF;
     dirs0.mask = FULL_WIDTH;
@@ -256,256 +278,181 @@ int test_read(int fd0, int fd1, int fd2, int fd3)
     ioctl(fd1, IOC_SET_DIR, dirs1);
     ioctl(fd2, IOC_SET_DIR, dirs2);
     ioctl(fd3, IOC_SET_DIR, dirs3);
-    sleep(1);
 
-    struct et_gpio_data data1, data2, data3, data4;
-    int i = 0;
-    while (i++<100)
+    epfd = epoll_create(5);
+    evs[0].data.fd = fd0;
+    evs[0].events = EPOLLPRI;
+    evs[1].data.fd = fd1;
+    evs[1].events = EPOLLPRI;
+    evs[2].data.fd = fd2;
+    evs[2].events = EPOLLPRI;
+    evs[3].data.fd = fd3;
+    evs[3].events = EPOLLPRI;
+    err = epoll_ctl(epfd, EPOLL_CTL_ADD, fd0, &evs[0]);
+    err = epoll_ctl(epfd, EPOLL_CTL_ADD, fd1, &evs[1]);
+    err = epoll_ctl(epfd, EPOLL_CTL_ADD, fd2, &evs[2]);
+    err = epoll_ctl(epfd, EPOLL_CTL_ADD, fd3, &evs[3]);
+    if(err<0) {
+        printf("ERROR LINE:%d\n", __LINE__);
+        goto CLEAN;
+    }
+
+    struct et_gpio_data d0, d1, d2, d3;
+
+    err = ioctl(fd0, IOC_POLL_START, 500); //0.5ms tick
+    err = ioctl(fd1, IOC_POLL_START, 500); //0.5ms tick
+    err = ioctl(fd2, IOC_POLL_START, 500); //0.5ms tick
+    err = ioctl(fd3, IOC_POLL_START, 500); //0.5ms tick
+    if(err<0) {
+        printf("ERROR LINE:%d\n", __LINE__);
+        goto CLEAN;
+    }
+
+    int c = 0;
+    printf("begin poll times%d:\n", c);
+    while (1)
     {
-        read(fd0, &data1, sizeof(struct et_gpio_data));
-        read(fd1, &data2, sizeof(struct et_gpio_data));
-        read(fd2, &data3, sizeof(struct et_gpio_data));
-        read(fd3, &data4, sizeof(struct et_gpio_data));
-        printf("value0: %08X, mask0: %08X\n", data1.value, data1.mask);
-        printf("value1: %08X, mask1: %08X\n", data2.value, data2.mask);
-        printf("value2: %08X, mask2: %08X\n", data3.value, data3.mask);
-        printf("value3: %08X, mask3: %08X\n", data4.value, data4.mask);
-        sleep(1);
+        err = epoll_wait(epfd, evs, 5, 0);
+        if(err<0) {
+            printf("ERROR LINE:%d\n", __LINE__);
+            goto CLEAN;
+        } else if(err>0) {
+            for (int i = 0; i < err; i++) {
+                struct et_gpio_data d;
+                char card[20];
+                if(evs[i].data.fd == fd0) {
+                    sprintf(card, "%s", "et_gpio_0");
+                } else if(evs[i].data.fd == fd1) {
+                    sprintf(card, "%s", "et_gpio_1");
+                } else if(evs[i].data.fd == fd2) {
+                    sprintf(card, "%s", "et_gpio_2");
+                } else if(evs[i].data.fd == fd3) {
+                    sprintf(card, "%s", "et_gpio_3");
+                } else {
+                    sprintf(card, "%s", "NULL");
+                }
+                ioctl(evs[i].data.fd, IOC_POLL_GET, &d);
+                printf("change on %s : value=%08X mask=%08X\n", card, d.value & d.mask, d.mask);
+            }
+
+            err = ioctl(fd0, IOC_POLL_STOP);
+            err = ioctl(fd1, IOC_POLL_STOP);
+            err = ioctl(fd2, IOC_POLL_STOP);
+            err = ioctl(fd3, IOC_POLL_STOP);
+            if(err<0) {
+                printf("ERROR LINE:%d\n", __LINE__);
+                goto CLEAN;
+            }
+
+            sleep(1);
+            if(c++>14) {
+                goto CLEAN;
+            }
+
+            printf("\nbegin poll times%d:\n", c);
+            err = ioctl(fd0, IOC_POLL_START, 500); //0.5ms tick
+            err = ioctl(fd1, IOC_POLL_START, 500); //0.5ms tick
+            err = ioctl(fd2, IOC_POLL_START, 500); //0.5ms tick
+            err = ioctl(fd3, IOC_POLL_START, 500); //0.5ms tick
+            if(err<0) {
+                printf("ERROR LINE:%d\n", __LINE__);
+                goto CLEAN;
     }
-}
-
-int test_write(int fd0, int fd1, int fd2, int fd3)
-{
-    printf("write测试\n");
-
-    struct et_gpio_data dirs0, dirs1,dirs2,dirs3;
-    dirs0.value = 0x1FFFF;
-    dirs0.mask = FULL_WIDTH;
-    dirs1.value = 0x0;
-    dirs1.mask = FULL_WIDTH;
-    dirs2.value = 0x1FFFF;
-    dirs2.mask = FULL_WIDTH;
-    dirs3.value = 0x0;
-    dirs3.mask = FULL_WIDTH;
-    ioctl(fd0, IOC_SET_DIR, dirs0);
-    ioctl(fd1, IOC_SET_DIR, dirs1);
-    ioctl(fd2, IOC_SET_DIR, dirs2);
-    ioctl(fd3, IOC_SET_DIR, dirs3);
-    sleep(1);
-
-    struct et_gpio_data data;
-    data.value = 0x01;
-    data.mask = FULL_WIDTH;
-    write(fd1, &data, sizeof(struct et_gpio_data));
-    write(fd0, &data, sizeof(struct et_gpio_data));
-    write(fd2, &data, sizeof(struct et_gpio_data));
-    write(fd3, &data, sizeof(struct et_gpio_data));    
-}
-
-int test_open_close()
-{
-    printf("开始测试%s\n", __func__);
-
-    int fd0 = open("/dev/et_gpio0", O_RDWR);
-    int fd1 = open("/dev/et_gpio1", O_RDWR);
-    struct et_gpio_data dirs0, dirs1;
-    dirs0.value = 0x2;
-    dirs0.mask = FULL_WIDTH;
-    dirs1.value = 0x01;
-    dirs0.mask = FULL_WIDTH;
-    ioctl(fd0, IOC_SET_DIR, dirs0);
-    ioctl(fd1, IOC_SET_DIR, dirs1);
-    close(fd0);
-    close(fd1);
-
-    struct et_gpio_data data0, data1;
-    fd0 = open("/dev/et_gpio0", O_RDWR);
-    fd1 = open("/dev/et_gpio1", O_RDWR);
-    read(fd0, &data0, sizeof(struct et_gpio_data));
-    read(fd1, &data1, sizeof(struct et_gpio_data));
-    close(fd0);
-    close(fd1);
-
-    if(data0.value!=0 || data0.mask!=0x1FFFF) {
-        printf("ERROR %s : %d\n", __func__, __LINE__);
-        printf("value: %x, mask: %x\n", data0.value, data0.mask);
-        return -1;
+        }
     }
 
-    if(data1.value!=0 || data1.mask!=0x1FFFF) {
-        printf("ERROR %s : %d\n", __func__, __LINE__);
-        printf("value: %x, mask: %x\n", data1.value, data1.mask);
-        return -1;
-    }
-    return 0;
-}
-
-void call_test_read()
-{
-        printf("-----------test_read---------\n");
-        int fd0 = open("/dev/et_gpio0", O_RDONLY);
-        int fd1 = open("/dev/et_gpio1", O_RDONLY);
-        int fd2 = open("/dev/et_gpio2", O_RDONLY);
-        int fd3 = open("/dev/et_gpio3", O_RDONLY);
-        // int fd0 = open("/dev/et_gpio0", O_RDWR);
-        // int fd1 = open("/dev/et_gpio1", O_RDWR);
-        // test_write(fd0, fd1);
-        // sleep(1);
-        test_read(fd0, fd1, fd2, fd3);
+CLEAN:
+    if(fd0>0) {
         close(fd0);
+    }
+    if(fd1>0) {
         close(fd1);
+    }
+    if(fd2>0) {
         close(fd2);
+    }
+    if(fd3>0) {
         close(fd3);
-}
-void call_test_open_close()
-{
-    printf("-----------test_open_close---------\n");
-    printf("\n");
-    if(test_open_close()) {
-        //fail++;
     }
-}
-void call_test_write()
-{
-    printf("-----------test_write---------\n");
-    int fd0 = open("/dev/et_gpio0", O_RDWR);
-    int fd1 = open("/dev/et_gpio1", O_RDWR);
-    int fd2 = open("/dev/et_gpio2", O_RDWR);
-    int fd3 = open("/dev/et_gpio3", O_RDWR);
-    // int fd0 = open("/dev/et_gpio0", O_RDWR);
-    // int fd1 = open("/dev/et_gpio1", O_RDWR);
-    // test_write(fd0, fd1);
-    // sleep(1);
-    test_write(fd0, fd1, fd2, fd3);
-    int i=0;
-    while(++i<100)
-    {
-        sleep(1);
+    if(epfd>0) {
+        close(epfd);
     }
-    close(fd0);
-    close(fd1);
-    close(fd2);
-    close(fd3);
+    return err;
 }
-void call_test_dir()
+
+int test()
 {
-    int fd;
-    fd = open("/dev/et_gpio0", O_RDWR);
-    if(fd < 0) {
-        printf("%s: 打开设备失败!!!\n", "/dev/et_gpio0");
-        //return -1;
-    }
-
-    if(test_dir(fd)) {
-        //fail++;
-    }
-    if(test_value(fd)) {
-        // fail++;
-    }
-    close(fd);
-    // if(fail) {
-    //     printf("%d个测试失败\n", fail);
-    //     return -1;
-    // } else {
-    //     printf("自动测试通过\n");
-    // }
-}
-int call_test_poll()
-{
-    printf("-----------call_test_poll---------\n");
-    int fd0 = open("/dev/et_gpio0", O_RDONLY | O_NONBLOCK);
-    test_poll_1(fd0);
-    
-    close(fd0);
-}
-int test_poll_write(int fd1)
-{
-    printf("poll_write测试\n");
-
-    struct et_gpio_data dirs0, dirs1,dirs2,dirs3;
-
-    dirs1.value = 0x0;
-    dirs1.mask = FULL_WIDTH;
-
-    ioctl(fd1, IOC_SET_DIR, dirs1);
-
-    sleep(1);
-
-    struct et_gpio_data data;
-    data.value = 0x015555;
-    data.mask = FULL_WIDTH;
-    write(fd1, &data, sizeof(struct et_gpio_data));
-}
-int call_test_poll_write()
-{
-    printf("-----------call_test_poll_write---------\n");
-    int fd1 = open("/dev/et_gpio1", O_RDWR);
-    test_poll_write(fd1);
-    int i=0;
-    while(++i<200)
-    {
-        sleep(1);
-    }
-    close(fd1);
-}
-int main(int argc, char **argv)
-{
-    printf("a:test_read\n");
+    printf("\na:test_read\n");
     printf("b:test_write\n");
-    printf("c:test_open_close\n");
-    printf("d:test_dir\n");
-    printf("e:test_poll_write\n");
-    printf("f:test_poll\n");
-
+    printf("c:test_dir\n");
+    printf("d:test_poll_15s\n");
+    printf("e:test_poll_loop\n");
+    printf("q:quit\n");
     printf("Input char to test---------------\n");
 
     char c;
+
+INPUT:
     c=getchar();
     
-    int fail = 0;
+    int err = 0;
 
     switch (c)
     {
         case 'a':
-            call_test_read();
+            printf("-----------test_read---------\n");
+            err = test_read(0, "/dev/et_gpio0");
+            if(err) 
+                break;
+            err = test_read(1, "/dev/et_gpio1");
+            if(err) 
+                break;
+            err = test_read(2, "/dev/et_gpio2");
+            if(err) 
+                break;
+            err = test_read(3, "/dev/et_gpio3");
             break;
         case 'b':
             printf("-----------test_write-------------\n");
-            call_test_write();
+            err = test_write();
             break;
         case 'c':
-            printf("-----------test_open_close-------------\n");
-            call_test_open_close();
+            printf("-----------test_dir----------------\n");
+            err = test_dir();
             break;
         case 'd':
-            printf("-----------test_dir----------------\n");
-            call_test_dir();
+            printf("-----------test_poll_15s----------------\n");
+            err = test_poll_15s("/dev/et_gpio0");
+            if(err) 
+                break;
+            err = test_poll_15s("/dev/et_gpio1");
+            if(err) 
+                break;
+            err = test_poll_15s("/dev/et_gpio2");
+            if(err) 
+                break;
+            err = test_poll_15s("/dev/et_gpio3");
             break;
         case 'e':
-            printf("-----------test_poll_write----------------\n");
-            call_test_poll_write();
+            printf("-----------test_poll_loop----------------\n");
+            err = test_poll_loop();
             break;
-        case 'f':
-            printf("-----------test_poll----------------\n");
-            call_test_poll();
+        case 'q':
+            err = -1;
             break;
+
         default:
-            break;
+            goto INPUT;
     }
-    return 0;
+    return err;
+}
 
-    if(2 != argc) {
-        printf("输入参数错误\n");
-        return -1;
+int main(int argc, char **argv)
+{
+    while (1)
+    {
+        int res = test();
+        if(res != 0)
+            return 0;
     }
-
-
-   // if(test_poll(fd)) {
-    //     fail++;
-    // }
-    
-
-    // test_manual(argv[1]);
-
-    return 0;
 }

@@ -1,3 +1,6 @@
+
+CONFIG_MODULE_SIG = n
+
 KVERS = $(shell uname -r)
 
 obj-m += et_gpio_drv.o
