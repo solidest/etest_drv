@@ -5,6 +5,7 @@
  *Version: 1.0
  ** ===================================================== **/
 
+
 #include <linux/module.h>  
 #include <linux/kernel.h>  
 #include <linux/fs.h>  
@@ -14,8 +15,9 @@
 #include <linux/device.h>
 #include <linux/poll.h>
 #include <linux/slab.h>
+#include <asm/io.h>
 
-#define ET_DEBUG
+// #define ET_DEBUG
 
 #define ET_GPIO_NAME        "et_gpio"
 #define GPIO_DEV_COUNT      4
@@ -212,7 +214,7 @@ EXIT:
     return HRTIMER_RESTART;
 }
 
-static int _poll_start(struct et_gpio_handle* hdl, unsigned long tick)
+static int _poll_start(struct et_gpio_handle* hdl, unsigned long tick_us)
 {
     struct et_gpio_dev* dev = hdl->dev;
     spin_lock(&dev->h_lock);
@@ -221,12 +223,17 @@ static int _poll_start(struct et_gpio_handle* hdl, unsigned long tick)
         spin_unlock(&dev->h_lock);
         return -1;
     }
-    hdl->timer_step = tick;
+    if(tick_us>1000) {
+        tick_us = 1000;
+    } else if(tick_us<1) {
+        tick_us = 1;
+    }
+    hdl->timer_step = tick_us * 1000;
     hdl->poll_data.mask = 0x0;
     hdl->poll_data.value = ioread32(dev->p_value) & ioread32(dev->p_state) & hdl->used_pin;
 
     spin_unlock(&dev->h_lock);
-    hrtimer_start(&hdl->timer, ktime_set(0, tick), HRTIMER_MODE_REL);
+    hrtimer_start(&hdl->timer, ktime_set(0, hdl->timer_step), HRTIMER_MODE_REL);
     return 0;
 };
 
