@@ -1,17 +1,10 @@
-# etest_drv
-driver for etest
-
-
-# 常用命令
-
-## 加载驱动
-insmod xxx.ko
-
-## 删除驱动
-rmmod xxx
-
-## 查看输出
-dmesg
-
-## 清楚输出
-dmesg -c
+# et_gpio_drv
+- 数字量输入输出驱动
+## V2.0
+- 优化了读写，新增的poll轮询支持
+- 使用方法见测试用例
+## V1.0
+- 实现了基本的读写、方向设置
+- read
+- write
+- ioctl: SET_DIR GET_DIR
