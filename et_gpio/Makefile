@@ -9,6 +9,9 @@ build: kernel_modules
 
 kernel_modules:
 	make -C /lib/modules/$(KVERS)/build M=$(CURDIR) modules
+	rm -f *.o *~ core .depend .*.cmd *.mod *.mod.c
+	rm -f Module.markers Module.symvers modules.order
+	rm -rf .tmp_versions Modules.symvers
 
 clean:
 	rm -f *.o *~ core .depend .*.cmd *.ko *.mod *.mod.c
