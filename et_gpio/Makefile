@@ -3,7 +3,7 @@ CONFIG_MODULE_SIG = n
 
 KVERS = $(shell uname -r)
 
-obj-m += et_gpio_drv.o #et_gpio_plat_drv.o et_gpio_plat_dev.o
+obj-m += et_gpio_drv.o et_gpio_plat_drv.o et_gpio_plat_dev.o
 
 build: kernel_modules
 
